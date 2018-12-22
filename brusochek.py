@@ -1,19 +1,19 @@
 from graph import *
 
 class Brusochek:
-    def __init__(self, x=50,y=20,dx=5, h=10, w=100, color = randColor()):
+    def __init__(self, x=50, y=20, dx=5, h=10, w=100, color=randColor()):
         self.x = x
         self.dx = dx
         self.h = h
         self.w = w
         self.color = color
         self.object = object
-        self.first_p = (0,0)
-        self.second_p = (50,50)
+        self.first_p = (0, 0)
+        self.second_p = (50, 50)
         self.y = y
 
     def set_down(self):
-        moveObjectTo(self.object,self.x,self.y-self.h)
+        moveObjectTo(self.object, self.x, self.y-self.h)
         return self
 
     def make_sqr(self):
@@ -26,24 +26,18 @@ class Brusochek:
         self.x = xCoord(self.object)
         return self.x
 
-    def cage(self, width, turn):
-        if self.x + self.w >= width and turn == VK_RIGHT:
+    def mov(self, width, turn):
+        if self.x + self.w >= width - 5 and turn == VK_RIGHT:
             return
 
-        if self.x <= 0 and turn == VK_LEFT:
+        if self.x <= 5 and turn == VK_LEFT:
             return
 
         if turn == VK_LEFT:
-            self.x -= self.dx
+            self.x -= self.dx/2
 
         if turn == VK_RIGHT:
             self.x += self.dx
 
         if turn == VK_RIGHT or turn == VK_LEFT:
             moveObjectTo(self.object, self.x, self.y - self.h)
-
-    def mov(self, event):
-        if event.keycode == VK_RIGHT:
-            moveObjectBy(self.object, self.dx, 0)
-        if event.keycode == VK_LEFT:
-            moveObjectBy(self.object, -self.dx, 0)
