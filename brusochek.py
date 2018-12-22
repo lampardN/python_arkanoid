@@ -25,3 +25,25 @@ class Brusochek:
     def position_update(self):
         self.x = xCoord(self.object)
         return self.x
+
+    def cage(self, width, turn):
+        if self.x + self.w >= width and turn == VK_RIGHT:
+            return
+
+        if self.x <= 0 and turn == VK_LEFT:
+            return
+
+        if turn == VK_LEFT:
+            self.x -= self.dx
+
+        if turn == VK_RIGHT:
+            self.x += self.dx
+
+        if turn == VK_RIGHT or turn == VK_LEFT:
+            moveObjectTo(self.object, self.x, self.y - self.h)
+
+    def mov(self, event):
+        if event.keycode == VK_RIGHT:
+            moveObjectBy(self.object, self.dx, 0)
+        if event.keycode == VK_LEFT:
+            moveObjectBy(self.object, -self.dx, 0)

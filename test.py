@@ -17,19 +17,17 @@ graph.line(5,5,5,400)
 graph.line(5,5,400,5)
 graph.line(400,5,400,400)
 
-platform = Brusochek(50, 400, 5, 10, 100).make_sqr().set_down()
+platform = Brusochek(width/3, 400, 10, 10, 100).make_sqr().set_down()
 
 for i in range(1):
-    posX = randint(2 * radius, width - 2 * radius)
-    posY = randint(2 * radius, height - 2 * radius)
+    posX = width/2
+    posY = width/2
     a = CircleClass(posX, posY, 1, 1, radius).color(graph.randColor()).createCircle()
     dots.append(a)
 
 def mov(event):
-    if event.keycode == graph.VK_LEFT:
-        graph.moveObjectBy(platform.object, -platform.dx, 0)
-    if event.keycode == graph.VK_RIGHT:
-        graph.moveObjectBy(platform.object, platform.dx, 0)
+    platform.cage(width, event.keycode)
+
 
 def update():
 
@@ -49,10 +47,10 @@ def update():
         dot.move()
         graph.moveObjectTo(dot.obj(), dot.getPosition('x'), dot.getPosition('y'))
 
-        if dot.getPosition('y') + dot.radius() >= height - radius:
-         graph.close()
+        #if dot.getPosition('y') + dot.radius() >= height - radius:
+         #graph.close()
 
 graph.onKey(mov)
-graph.onTimer(update, 50)
+graph.onTimer(update, 10)
 
 graph.run()
