@@ -19,7 +19,7 @@ class Brusochek:
     def make_sqr(self):
         penColor('black')
         brushColor('red')
-        self.object = rectangle(0, 0, 100, 10)
+        self.object = rectangle(0, 0, 100, 15)
         return self
 
     def position_update(self):
@@ -34,7 +34,7 @@ class Brusochek:
             return
 
         if turn == VK_LEFT:
-            self.x -= self.dx/2
+            self.x -= self.dx/1.5
 
         if turn == VK_RIGHT:
             self.x += self.dx
