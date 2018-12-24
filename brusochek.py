@@ -12,8 +12,8 @@ class Brusochek:
         self.second_p = (50, 50)
         self.y = y
 
-    def set_down(self):
-        moveObjectTo(self.object, self.x, self.y-self.h)
+    def set_down(self, width):
+        moveObjectTo(self.object, width/2 - self.h/2, self.y-self.h)
         return self
 
     def make_sqr(self):

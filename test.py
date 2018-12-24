@@ -6,7 +6,6 @@ import graph
 width = GetSystemMetrics(0) - 500 #Размер экрана
 height = GetSystemMetrics(0) - 1000 #Размер экрана
 radius = 10                       #Радиус шарика
-dots = []                         #Массив для шариков
 graph.windowSize(width + 50, height + 50)
 graph.canvasSize(width, height)
 graph.canvasPos(0, 0)
@@ -17,13 +16,12 @@ graph.line(5, 5, 5, height)
 graph.line(5, 5, width, 5)
 graph.line(width, 5, width, height)
 
-platform = Brusochek(width/3, height, 20, 15, 100).make_sqr().set_down()
+platform = Brusochek(width/3, height, 20, 15, 100).make_sqr().set_down(width)
 
-for i in range(1):
-    posX = width/2
-    posY = height/2
-    a = CircleClass(posX, posY, 1, 1, radius).color(graph.randColor()).createCircle()
-    dots.append(a)
+
+posX = width/2
+posY = height/2
+dot = CircleClass(posX, posY, 1, 1, radius).color(graph.randColor()).createCircle()
 
 def mov(event):
     platform.mov(width, event.keycode)
@@ -31,26 +29,40 @@ def mov(event):
 
 def update():
 
-    for dot in dots:
-        if dot.getPosition('x') + dot.radius() >= width - radius:
-            dot.setOffset(dx=-1 * dot.getOffset('x'))
 
 
-        if dot.getPosition('x') - dot.radius() < -dot.radius():
-            dot.setOffset(dx=-1 * dot.getOffset('x'))
-        if dot.getPosition('y') - dot.radius() < -dot.radius():
-            dot.setOffset(dy=-1 * dot.getOffset('y'))
 
-        if (platform.position_update() + platform.w >= dot.getPosition('x') + dot.radius() >= platform.position_update()\
-        and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6):
-            dot.setOffset(dy=-1 * dot.getOffset('y'))
-            dot.setOffset(dx=1 * dot.getOffset('x'))
+    if dot.getPosition('x') + dot.radius() >= width - radius:
+        dot.setOffset(dx=-1 * dot.getOffset('x'))
 
-        dot.move()
-        graph.moveObjectTo(dot.obj(), dot.getPosition('x'), dot.getPosition('y'))
+    if dot.getPosition('x') - dot.radius() < -dot.radius():
+        dot.setOffset(dx=-1 * dot.getOffset('x'))
+    if dot.getPosition('y') - dot.radius() < -dot.radius():
+        dot.setOffset(dy=-1 * dot.getOffset('y'))
 
-        if dot.getPosition('y') + dot.radius() >= height + radius:
-            graph.close()
+    if ((platform.position_update() + platform.w) /2)-20 <= dot.getPosition('x') + dot.radius() <= ((platform.position_update() + platform.w)/2)+20 \
+    and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6:
+        dot.setOffset(dy=-1 * dot.getOffset('y'))
+        dot.setOffset(dx=0)
+        print('!!!!')
+
+    #elif (platform.position_update() + platform.w) / 2 - 20 > dot.getPosition('x') + dot.radius() >= platform.position_update()\
+    #and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6:
+    #    dot.setOffset(dy=-1 * dot.getOffset('y'))
+    #    dot.setOffset(dx=1 * dot.getOffset('x'))
+
+    #elif (platform.position_update() + platform.w) / 2 + 20 < dot.getPosition('x') + dot.radius() <= platform.position_update() + platform.w\
+    #and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6:
+    #    dot.setOffset(dy=-1 * dot.getOffset('y'))
+    #    dot.setOffset(dx=1 * dot.getOffset('x'))
+
+
+
+    dot.move()
+    graph.moveObjectTo(dot.obj(), dot.getPosition('x'), dot.getPosition('y'))
+
+    if dot.getPosition('y') + dot.radius() >= height + radius:
+        graph.close()
 
 
 
