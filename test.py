@@ -43,13 +43,21 @@ def update():
         dot.setOffset(dy=-1 * dot.getOffset('y'))
         dot.setOffset(dx=0)
 
-    if platform.position_update() + platform.w / 2 - 20 >= dot.getPosition('x') + dot.radius() >= platform.position_update()\
-    and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6:  # если шарик упал на левую половину платформы
+    if ((platform.position_update() + platform.w / 2) - 20 > dot.getPosition('x') + dot.radius() >= platform.position_update()\
+    and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6)\
+    or ((platform.position_update() + platform.w / 2) - 20 > dot.getPosition('x') + dot.radius() >= platform.position_update() - dot.radius()\
+    and dot.getPosition('y') == height - platform.h * 1.6):  # если шарик упал на левую половину платформы
+        if dot.getOffset('x') == 0:
+            dot.setOffset(dx=-1)
         dot.setOffset(dy=-1 * dot.getOffset('y'))
         dot.setOffset(dx=1 * dot.getOffset('x'))
 
-    if platform.position_update() + platform.w / 2 + 20 <= dot.getPosition('x') + dot.radius() <= platform.position_update() + platform.w\
-    and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6:  # если упал на правую половину платформы
+    if ((platform.position_update() + platform.w / 2) + 20 < dot.getPosition('x') + dot.radius() <= platform.position_update() + platform.w\
+    and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6)\
+    or ((platform.position_update() + platform.w / 2) + 20 < dot.getPosition('x') - dot.radius() <= platform.position_update() + platform.w + dot.radius()\
+    and dot.getPosition('y') == height - platform.h * 1.6):  # если упал на правую половину платформы
+        if dot.getOffset('x') == 0:
+            dot.setOffset(dx=1)
         dot.setOffset(dy=-1 * dot.getOffset('y'))
         dot.setOffset(dx=1 * dot.getOffset('x'))
 
