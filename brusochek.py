@@ -11,9 +11,10 @@ class Brusochek:
         self.first_p = (0, 0)
         self.second_p = (50, 50)
         self.y = y
+        self.p = 0
 
     def set_down(self, width):
-        moveObjectTo(self.object, width/2 - self.h/2, self.y-self.h)
+        moveObjectTo(self.object, width/2 - self.w/2, self.y-self.h)
         return self
 
     def make_sqr(self):
@@ -27,17 +28,20 @@ class Brusochek:
         return self.x
 
     def mov(self, width, turn):
-        if self.x + self.w >= width - 5 and turn == VK_RIGHT:
-            return
+        if turn == VK_SPACE and self.p == 0:
+            self.p += 1
+        else:
+            if self.x + self.w >= width - 5 and turn == VK_RIGHT:
+                return
 
-        if self.x <= 5 and turn == VK_LEFT:
-            return
+            if self.x <= 5 and turn == VK_LEFT:
+                return
 
-        if turn == VK_LEFT:
-            self.x -= self.dx/1.5
+            if turn == VK_LEFT:
+                self.x -= self.dx/1.5
 
-        if turn == VK_RIGHT:
-            self.x += self.dx
+            if turn == VK_RIGHT:
+                self.x += self.dx
 
-        if turn == VK_RIGHT or turn == VK_LEFT:
-            moveObjectTo(self.object, self.x, self.y - self.h)
+            if turn == VK_RIGHT or turn == VK_LEFT:
+                moveObjectTo(self.object, self.x, self.y - self.h)

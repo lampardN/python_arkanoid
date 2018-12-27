@@ -1,7 +1,7 @@
 from graph import *
 
 class CircleClass:
-    def __init__(self, x = 0, y = 0, dx = 1, dy = 1, radius = 1, color = randColor()):
+    def __init__(self, x=0, y=0, dx=1, dy=1, radius=1, color=randColor()):
         self.x = x
         self.y = y
         self.dx = dx
@@ -16,7 +16,7 @@ class CircleClass:
         else:
             return self.y
 
-    def setPosition(self, x = 1, y = 1):
+    def setPosition(self, x=1, y=1):
         self.x = x
         self.y = y
         return self
@@ -27,28 +27,28 @@ class CircleClass:
         else:
             return self.dy
 
-    def setOffset(self, dx = None, dy = None):
+    def setOffset(self, dx=None, dy=None):
         if not (dx is None):
             self.dx = dx
         if not (dy is None):
             self.dy = dy
         return self
 
-    def radius(self, r = None):
+    def radius(self, r=None):
         if r is None:
             return self.r
         else:
             self.r = r
             return self
 
-    def color(self, color = None):
+    def color(self, color=None):
         if color is None:
             return self.col
         else:
             self.col = color
             return self
 
-    def obj(self, object = None):
+    def obj(self, object=None):
         if object is None:
             return self.object
         else:
