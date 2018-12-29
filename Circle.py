@@ -1,5 +1,6 @@
 from graph import *
 
+
 class CircleClass:
     def __init__(self, x=0, y=0, dx=1, dy=1, radius=1, color=randColor()):
         self.x = x
@@ -64,4 +65,3 @@ class CircleClass:
     def move(self):
         self.x += self.getOffset('x')
         self.y += self.getOffset('y')
-

@@ -1,5 +1,6 @@
 from graph import *
 
+
 class Brusochek:
     def __init__(self, x=50, y=20, dx=5, h=10, w=100, color=randColor()):
         self.x = x

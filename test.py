@@ -1,12 +1,14 @@
 from Circle import CircleClass
 from brusochek import Brusochek
+from Controller import ControllerClass
 from win32api import GetSystemMetrics
+from random import randint
 import graph
 
 center = 10  # половина центральной части платформы
 
 width = GetSystemMetrics(0) - 500  # Размер экрана
-height = GetSystemMetrics(0) - 1000  # Размер экрана
+height = GetSystemMetrics(1) - 500  # Размер экрана
 radius = 10                       # Радиус шарика
 graph.windowSize(width + 50, height + 50)  # размер окна
 graph.canvasSize(width, height)  # размер холста
@@ -25,6 +27,7 @@ posX = width/2  # позиция шарика по х
 posY = height - platform.h - 20  # позиция шарика по у
 dot = CircleClass(posX, posY, 0, 1, radius).color(graph.randColor()).createCircle()  # шарик
 
+blocks = ControllerClass.set_objects
 
 def mov(event):
     platform.mov(width, event.keycode)
