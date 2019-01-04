@@ -1,6 +1,5 @@
 from enemy import Enemy
 from win32api import GetSystemMetrics
-from graph import *
 
 height = GetSystemMetrics(1) - 500
 width = GetSystemMetrics(0) - 500

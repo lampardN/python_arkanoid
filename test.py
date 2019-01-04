@@ -2,7 +2,6 @@ from Circle import CircleClass
 from brusochek import Brusochek
 from Controller import ControllerClass
 from win32api import GetSystemMetrics
-from random import randint
 import graph
 
 center = 10  # половина центральной части платформы
@@ -30,16 +29,25 @@ dot = CircleClass(posX, posY, 0, 1, radius).color(graph.randColor()).createCircl
 controller = ControllerClass()
 blocks = controller.set_objects()
 
+score_l = 'Youre score - 0'
+score = 0
+
+
 def mov(event):
     platform.mov(width, event.keycode)
 
 
 def update():
+
+    global score
+    global score_l
+
     if platform.p != 0:
 
-        for sqr in blocks.enemys:
+        for sqr in blocks.enemys:  # контакт шарика с блоками
             if graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w\
             and graph.yCoord(sqr.object) + blocks.h == dot.getPosition('y'):
+                score += sqr.s
                 sqr.s -= 1
                 dot.setOffset(dy=-1 * dot.getOffset('y'))
                 dot.setOffset(dx=1 * dot.getOffset('x'))
@@ -47,6 +55,7 @@ def update():
                 if sqr.s == -1:
                     graph.deleteObject(sqr.object)
                     del blocks.enemys[blocks.enemys.index(sqr)]
+                score_l = 'Youre score - ' + str(score)
 
         if dot.getPosition('x') + dot.radius() >= width - radius:  # если ушёл за рамку вправо
             dot.setOffset(dx=-1 * dot.getOffset('x'))
@@ -97,5 +106,7 @@ def update():
 
 graph.onKey(mov)
 graph.onTimer(update, 10)
-
+graph.label(score_l, 0, height + 20)
 graph.run()
+
+print(score_l)
