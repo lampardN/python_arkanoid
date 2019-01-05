@@ -29,8 +29,9 @@ dot = CircleClass(posX, posY, 0, 1, radius).color(graph.randColor()).createCircl
 controller = ControllerClass()
 blocks = controller.set_objects()
 
-score_l = 'Youre score - 0'
+score_l = 'Your score - 0'
 score = 0
+graph.label(score_l, 0, height + 20)
 
 
 def mov(event):
@@ -45,8 +46,14 @@ def update():
     if platform.p != 0:
 
         for sqr in blocks.enemys:  # контакт шарика с блоками
-            if graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w\
-            and graph.yCoord(sqr.object) + blocks.h == dot.getPosition('y'):
+            if (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
+            and graph.yCoord(sqr.object) + blocks.h == dot.getPosition('y'))\
+            or (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
+            and graph.yCoord(sqr.object) == dot.getPosition('y') + dot.radius())\
+            or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
+            and graph.xCoord(sqr.object) == dot.getPosition('x') + dot.radius())\
+            or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
+            and graph.xCoord(sqr.object) + sqr.w == dot.getPosition('x') - dot.radius()):
                 score += sqr.s
                 sqr.s -= 1
                 dot.setOffset(dy=-1 * dot.getOffset('y'))
@@ -55,7 +62,8 @@ def update():
                 if sqr.s == -1:
                     graph.deleteObject(sqr.object)
                     del blocks.enemys[blocks.enemys.index(sqr)]
-                score_l = 'Youre score - ' + str(score)
+                score_l = 'Your score - ' + str(score)
+                graph.label(score_l, 0, height + 20)
 
         if dot.getPosition('x') + dot.radius() >= width - radius:  # если ушёл за рамку вправо
             dot.setOffset(dx=-1 * dot.getOffset('x'))
@@ -106,7 +114,6 @@ def update():
 
 graph.onKey(mov)
 graph.onTimer(update, 10)
-graph.label(score_l, 0, height + 20)
 graph.run()
 
 print(score_l)
