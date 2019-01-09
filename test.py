@@ -1,37 +1,36 @@
 from Circle import CircleClass
 from brusochek import Brusochek
 from Controller import ControllerClass
-from win32api import GetSystemMetrics
 import graph
 
 center = 10  # половина центральной части платформы
 
-width = GetSystemMetrics(0) - 500  # Размер экрана
-height = GetSystemMetrics(1) - 500  # Размер экрана
+width = 800  # Размер экрана
+height = 600  # Размер экрана
 radius = 10                       # Радиус шарика
 graph.windowSize(width + 50, height + 50)  # размер окна
 graph.canvasSize(width, height)  # размер холста
 graph.canvasPos(0, 0)  # позиция холста
 
-graph.penColor('black')  # цвет рамки
-graph.penSize(5)  # ширина рамки
-graph.line(5, 5, 5, height)  # левая сторона рамки
-graph.line(5, 5, width, 5)  # вепхняя сторона рамки
-graph.line(width, 5, width, height)  # правая сторона рамки
-
-platform = Brusochek(width/3, height, 20, 15, 100).make_sqr().set_down(width)  # брусочек
-
+platform = Brusochek(width/3, height, 20, 15, 100).set_down(width)  # брусочек
 
 posX = width/2  # позиция шарика по х
 posY = height - platform.h - 20  # позиция шарика по у
-dot = CircleClass(posX, posY, 0, 1, radius).color(graph.randColor()).createCircle()  # шарик
+dots = []
+dots.append(CircleClass(posX, posY, 1, 1, radius))  # шарик
 
-controller = ControllerClass()
-blocks = controller.set_objects()
+controller = ControllerClass()  # объект контроллера
+blocks = controller.set_objects()  # враги
 
 score_l = 'Your score - 0'
 score = 0
-graph.label(score_l, 0, height + 20)
+graph.label(score_l, 0, height + 20)  # счёт
+
+graph.penColor('black')  # цвет рамки
+graph.penSize(6)  # ширина рамки
+graph.line(5, 5, 5, height)  # левая сторона рамки
+graph.line(5, 5, width, 5)  # верхняя сторона рамки
+graph.line(width, 5, width, height)  # правая сторона рамки
 
 
 def mov(event):
@@ -43,73 +42,43 @@ def update():
     global score
     global score_l
 
-    if platform.p != 0:
+    for dot in dots:
 
-        for sqr in blocks.enemys:  # контакт шарика с блоками
-            if (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
-            and graph.yCoord(sqr.object) + blocks.h == dot.getPosition('y'))\
-            or (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
-            and graph.yCoord(sqr.object) == dot.getPosition('y') + dot.radius())\
-            or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
-            and graph.xCoord(sqr.object) == dot.getPosition('x') + dot.radius())\
-            or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
-            and graph.xCoord(sqr.object) + sqr.w == dot.getPosition('x') - dot.radius()):
-                score += sqr.s
-                sqr.s -= 1
-                dot.setOffset(dy=-1 * dot.getOffset('y'))
-                dot.setOffset(dx=1 * dot.getOffset('x'))
-                sqr.set_color().update_object()
-                if sqr.s == -1:
-                    graph.deleteObject(sqr.object)
-                    del blocks.enemys[blocks.enemys.index(sqr)]
-                score_l = 'Your score - ' + str(score)
-                graph.label(score_l, 0, height + 20)
+        if platform.p != 0:
 
-        if dot.getPosition('x') + dot.radius() >= width - radius:  # если ушёл за рамку вправо
-            dot.setOffset(dx=-1 * dot.getOffset('x'))
+            for sqr in blocks.enemys:  # контакт шарика с блоками
+                if (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
+                and graph.yCoord(sqr.object) + blocks.h == dot.getPosition('y'))\
+                or (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
+                and graph.yCoord(sqr.object) == dot.getPosition('y') + dot.radius())\
+                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
+                and graph.xCoord(sqr.object) == dot.getPosition('x') + dot.radius())\
+                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
+                and graph.xCoord(sqr.object) + sqr.w == dot.getPosition('x') - dot.radius()):
+                    score += sqr.s
+                    sqr.s -= 1
+                    dot.setOffset(dy=-1 * dot.getOffset('y'))
+                    dot.setOffset(dx=1 * dot.getOffset('x'))
+                    sqr.set_color().update_object()
+                    if sqr.s == -1:
+                        graph.deleteObject(sqr.object)
+                        del blocks.enemys[blocks.enemys.index(sqr)]
+                    score_l = 'Your score - ' + str(score)
+                    graph.label(score_l, 0, height + 20)
 
-        if dot.getPosition('x') - dot.radius() < -dot.radius():  # если ушёл за рамку влево
-            dot.setOffset(dx=-1 * dot.getOffset('x'))
-        if dot.getPosition('y') - dot.radius() < -dot.radius():  # если ушёо за рамку вверх
-            dot.setOffset(dy=-1 * dot.getOffset('y'))
+            dot.circleInWindow(width)
 
-        if ((platform.position_update() + platform.w/2) - center <= dot.getPosition('x')
-        + dot.radius() <= (platform.position_update() + platform.w/2) + center)\
-        and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6:  # если шарик упал на центр платформы
-            dot.setOffset(dy=-1 * dot.getOffset('y'))
-            dot.setOffset(dx=0)
+            dot.checkBrusochekContact(platform.position_update(), platform.w, platform.h)
 
-        if ((platform.position_update() + platform.w / 2) - center > dot.getPosition('x')
-        + dot.radius() >= platform.position_update()
-        and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6)\
-        or ((platform.position_update() + platform.w / 2) - center > dot.getPosition('x')
-        + dot.radius() >= platform.position_update() - dot.radius()
-        and dot.getPosition('y') == height - platform.h * 1.6):  # если шарик упал на левую половину платформы
-            if dot.getOffset('x') == 0:
-                dot.setOffset(dx=-1)
-            dot.setOffset(dy=-1 * dot.getOffset('y'))
-            dot.setOffset(dx=1 * dot.getOffset('x'))
+            dot.move()
+            graph.moveObjectTo(dot.obj(), dot.getPosition('x'), dot.getPosition('y'))  # движение шарика
 
-        if ((platform.position_update() + platform.w / 2) + center < dot.getPosition('x')
-        + dot.radius() <= platform.position_update() + platform.w
-        and dot.getPosition('y') + dot.radius() == height - platform.h * 1.6)\
-        or ((platform.position_update() + platform.w / 2) + center < dot.getPosition('x')
-        - dot.radius() <= platform.position_update() + platform.w + dot.radius()
-        and dot.getPosition('y') == height - platform.h * 1.6):  # если упал на правую половину платформы
-            if dot.getOffset('x') == 0:
-                dot.setOffset(dx=1)
-            dot.setOffset(dy=-1 * dot.getOffset('y'))
-            dot.setOffset(dx=1 * dot.getOffset('x'))
+            if dot.getPosition('y') + dot.radius() >= height + radius:  # условие проигрыша
+                graph.close()
 
-        dot.move()
-        graph.moveObjectTo(dot.obj(), dot.getPosition('x'), dot.getPosition('y'))  # движение шарика
-
-        if dot.getPosition('y') + dot.radius() >= height + radius:  # условие проигрыша
-            graph.close()
-
-    else:
-        graph.moveObjectTo(dot.object, platform.position_update() + platform.w/2, dot.getPosition('y') - dot.radius())
-        dot.setPosition(graph.xCoord(dot.object), platform.y - dot.radius()*4)
+        else:  # фиксация шарика над платформой
+            graph.moveObjectTo(dot.object, platform.position_update() + platform.w/2, dot.getPosition('y') - dot.radius())
+            dot.setPosition(graph.xCoord(dot.object), platform.y - dot.radius()*4)
 
 
 graph.onKey(mov)

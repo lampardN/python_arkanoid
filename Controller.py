@@ -1,8 +1,7 @@
 from enemy import Enemy
-from win32api import GetSystemMetrics
 
-height = GetSystemMetrics(1) - 500
-width = GetSystemMetrics(0) - 500
+height = 600
+width = 800
 
 file = open('position.txt', 'r', encoding='utf-8')
 a = file.readlines()

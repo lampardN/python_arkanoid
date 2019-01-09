@@ -9,7 +9,8 @@ class CircleClass:
         self.dy = dy
         self.object = object
         self.r = radius
-        self.col = color
+        self.color = color
+        self.createCircle()
 
     def getPosition(self, pType):
         if pType == 'x':
@@ -42,13 +43,6 @@ class CircleClass:
             self.r = r
             return self
 
-    def color(self, color=None):
-        if color is None:
-            return self.col
-        else:
-            self.col = color
-            return self
-
     def obj(self, object=None):
         if object is None:
             return self.object
@@ -57,11 +51,26 @@ class CircleClass:
             return self
 
     def createCircle(self):
-        brushColor(self.color())
-        penColor(self.color())
+        brushColor(self.color)
+        penColor(self.color)
         self.object = circle(self.getPosition('x'), self.getPosition('y'), self.radius())
         return self
 
     def move(self):
         self.x += self.getOffset('x')
         self.y += self.getOffset('y')
+
+    def checkBrusochekContact(self, brPositionX, brWidth, brHeight):
+        if self.y + self.radius() == 600 - brHeight - self.radius()\
+        and(brPositionX <= self.x <= brPositionX + brWidth
+        or brPositionX <= self.x + self.radius() <= brPositionX + brWidth
+        or brPositionX <= self.x - self.radius() <= brPositionX + brWidth):
+            self.dy *= -1
+
+    def circleInWindow(self, width):
+        if self.x + self.radius() >= width - self.radius():  # если ушёл за рамку вправо
+            self.dx *= -1
+        if self.x - self.radius() < -self.radius():  # если ушёл за рамку влево
+            self.dx *= -1
+        if self.y - self.radius() < -self.radius():  # если ушёо за рамку вверх
+            self.dy *= -1
