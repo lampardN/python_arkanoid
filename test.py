@@ -1,6 +1,7 @@
 from Circle import CircleClass
 from brusochek import Brusochek
 from Controller import ControllerClass
+from scoreController import Score
 import graph
 
 center = 10  # половина центральной части платформы
@@ -19,12 +20,10 @@ posY = height - platform.h - 20  # позиция шарика по у
 dots = []
 dots.append(CircleClass(posX, posY, 1, 1, radius))  # шарик
 
-controller = ControllerClass('position.txt')  # объект контроллера
+controller = ControllerClass('position.txt', width, height)  # объект контроллера
 blocks = controller.set_objects()  # враги
 
-score_l = 'Your score - 0'
-score = 0
-graph.label(score_l, 0, height + 20)  # счёт
+score = Score(height)
 
 graph.penColor('black')  # цвет рамки
 graph.penSize(6)  # ширина рамки
@@ -39,32 +38,28 @@ def mov(event):
 
 def update():
 
-    global score
-    global score_l
-
     for dot in dots:
 
         if platform.p != 0:
 
             for sqr in blocks.enemys:  # контакт шарика с блоками
-                if (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
-                and graph.yCoord(sqr.object) + blocks.h == dot.getPosition('y'))\
-                or (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.w
+                if (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.width
+                and graph.yCoord(sqr.object) + blocks.height == dot.getPosition('y'))\
+                or (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.width
                 and graph.yCoord(sqr.object) == dot.getPosition('y') + dot.radius())\
-                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
+                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.height
                 and graph.xCoord(sqr.object) == dot.getPosition('x') + dot.radius())\
-                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.h
-                and graph.xCoord(sqr.object) + sqr.w == dot.getPosition('x') - dot.radius()):
-                    score += sqr.s
-                    sqr.s -= 1
+                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.height
+                and graph.xCoord(sqr.object) + blocks.width == dot.getPosition('x') - dot.radius()):
+                    score.score += sqr.strenght
+                    sqr.strenght -= 1
                     dot.setOffset(dy=-1 * dot.getOffset('y'))
                     dot.setOffset(dx=1 * dot.getOffset('x'))
                     sqr.set_color().update_object()
-                    if sqr.s == -1:
+                    if sqr.strenght == 0:
                         graph.deleteObject(sqr.object)
                         del blocks.enemys[blocks.enemys.index(sqr)]
-                    score_l = 'Your score - ' + str(score)
-                    graph.label(score_l, 0, height + 20)
+                    score.mklable()
 
             dot.circleInWindow(width)
 
@@ -85,4 +80,4 @@ graph.onKey(mov)
 graph.onTimer(update, 10)
 graph.run()
 
-print(score_l)
+print(score.score)
