@@ -19,7 +19,7 @@ posY = height - platform.h - 20  # позиция шарика по у
 dots = []
 dots.append(CircleClass(posX, posY, 1, 1, radius))  # шарик
 
-controller = ControllerClass()  # объект контроллера
+controller = ControllerClass('position.txt')  # объект контроллера
 blocks = controller.set_objects()  # враги
 
 score_l = 'Your score - 0'

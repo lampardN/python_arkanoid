@@ -20,9 +20,11 @@ class Brusochek:
         return self
 
     def make_sqr(self):
+        penSize(4)
         penColor('black')
         brushColor('red')
         self.object = rectangle(0, 0, 100, 15)
+        penSize(0)
         return self
 
     def position_update(self):

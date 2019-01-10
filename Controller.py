@@ -3,16 +3,12 @@ from enemy import Enemy
 height = 600
 width = 800
 
-file = open('position.txt', 'r', encoding='utf-8')
-a = file.readlines()
 
-for i in range(len(a)):
-    a[i] = a[i].strip()
 
 
 class ControllerClass:
-    def __init__(self, x=0, y=0):
-        global a
+    def __init__(self, filename, x=0, y=0):
+        a = self.readFile(filename)
         self.x = x
         self.y =y
         self.w = width//len(a[0])
@@ -41,3 +37,11 @@ class ControllerClass:
             y1 += self.h
             y2 += self.h
         return self
+
+    def readFile(self, filename):
+        file = open(filename, 'r', encoding='utf-8')
+        a = file.readlines()
+
+        for i in range(len(a)):
+            a[i] = a[i].strip()
+        return a
