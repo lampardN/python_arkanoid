@@ -8,7 +8,8 @@ center = 10  # половина центральной части платфор
 
 width = 800  # Размер экрана
 height = 600  # Размер экрана
-radius = 10                       # Радиус шарика
+radius = 10     # Радиус шарика
+FrameSize = 6
 graph.windowSize(width + 50, height + 50)  # размер окна
 graph.canvasSize(width, height)  # размер холста
 graph.canvasPos(0, 0)  # позиция холста
@@ -18,15 +19,14 @@ platform = Brusochek(width/3, height, 20, 15, 100).set_down(width)  # брусо
 posX = width/2  # позиция шарика по х
 posY = height - platform.h - 20  # позиция шарика по у
 dots = []
-dots.append(CircleClass(posX, posY, 1, 1, radius))  # шарик
+dots.append(CircleClass(width - FrameSize, height - FrameSize, posX, posY, 1, 1, radius))  # шарик
 
-controller = ControllerClass('position.txt', width, height)  # объект контроллера
-blocks = controller.set_objects()  # враги
+blocks = ControllerClass('position.txt', width, height)  # объект контроллера
 
-score = Score(height)
+schet = Score(height)
 
 graph.penColor('black')  # цвет рамки
-graph.penSize(6)  # ширина рамки
+graph.penSize(FrameSize)  # ширина рамки
 graph.line(5, 5, 5, height)  # левая сторона рамки
 graph.line(5, 5, width, 5)  # верхняя сторона рамки
 graph.line(width, 5, width, height)  # правая сторона рамки
@@ -51,7 +51,7 @@ def update():
                 and graph.xCoord(sqr.object) == dot.getPosition('x') + dot.radius())\
                 or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.height
                 and graph.xCoord(sqr.object) + blocks.width == dot.getPosition('x') - dot.radius()):
-                    score.score += sqr.strenght
+                    schet.score += sqr.strenght
                     sqr.strenght -= 1
                     dot.setOffset(dy=-1 * dot.getOffset('y'))
                     dot.setOffset(dx=1 * dot.getOffset('x'))
@@ -59,9 +59,9 @@ def update():
                     if sqr.strenght == 0:
                         graph.deleteObject(sqr.object)
                         del blocks.enemys[blocks.enemys.index(sqr)]
-                    score.mklable()
+                    schet.mklable()
 
-            dot.circleInWindow(width)
+            dot.circleInWindow()
 
             dot.checkBrusochekContact(platform.position_update(), platform.w, platform.h)
 
@@ -80,4 +80,4 @@ graph.onKey(mov)
 graph.onTimer(update, 10)
 graph.run()
 
-print(score.score)
+print(schet.score)

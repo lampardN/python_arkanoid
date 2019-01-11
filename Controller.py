@@ -10,6 +10,7 @@ class ControllerClass:
         self.width = (width-6)//10
         self.height = 20
         self.enemys = []
+        self.set_objects()
 
     def set_objects(self):
         self.x = 8
@@ -17,7 +18,7 @@ class ControllerClass:
         for i in range(len(self.a)):
             for j in range(len(self.a[i])):
                 if self.a[i][j] != '_':
-                    self.enemys.append(Enemy(self.x, self.y, self.x + self.width, self.y + self.height, int(self.a[i][j])).set_color().make_sqr())
+                    self.enemys.append(Enemy(self.x, self.y, self.x + self.width, self.y + self.height, int(self.a[i][j])))
                 self.x += self.width
             self.x = 8
             self.y += self.height

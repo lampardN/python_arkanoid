@@ -2,7 +2,7 @@ from graph import *
 
 
 class CircleClass:
-    def __init__(self, x=0, y=0, dx=1, dy=1, radius=1, color=randColor()):
+    def __init__(self, fieldWidth, fieldHeight, x=0, y=0, dx=1, dy=1, radius=1, color=randColor()):
         self.x = x
         self.y = y
         self.dx = dx
@@ -10,6 +10,8 @@ class CircleClass:
         self.object = object
         self.r = radius
         self.color = color
+        self.filedWidth = fieldWidth
+        self.filedHeight = fieldHeight
         self.createCircle()
 
     def getPosition(self, pType):
@@ -67,8 +69,8 @@ class CircleClass:
         or brPositionX <= self.x - self.radius() <= brPositionX + brWidth):
             self.dy *= -1
 
-    def circleInWindow(self, width):
-        if self.x + self.radius() >= width - self.radius():  # если ушёл за рамку вправо
+    def circleInWindow(self):
+        if self.x + self.radius() >= self.filedWidth:  # если ушёл за рамку вправо
             self.dx *= -1
         if self.x - self.radius() < -self.radius():  # если ушёл за рамку влево
             self.dx *= -1

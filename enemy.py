@@ -10,6 +10,8 @@ class Enemy:
         self.strenght = strenght
         self.color = color
         self.object = object
+        self.set_color()
+        self.make_sqr()
 
     def set_color(self):
         if self.strenght == 1:
