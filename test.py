@@ -1,7 +1,5 @@
-from Circle import CircleClass
 from brusochek import Brusochek
 from Controller import ControllerClass
-from scoreController import Score
 import graph
 
 center = 10  # половина центральной части платформы
@@ -16,14 +14,7 @@ graph.canvasPos(0, 0)  # позиция холста
 
 platform = Brusochek(width/3, height, 20, 15, 100).set_down(width)  # брусочек
 
-posX = width/2  # позиция шарика по х
-posY = height - platform.h - 20  # позиция шарика по у
-dots = []
-dots.append(CircleClass(width - FrameSize, height - FrameSize, posX, posY, 1, 1, radius))  # шарик
-
-blocks = ControllerClass('position.txt', width, height)  # объект контроллера
-
-schet = Score(height)
+objects = ControllerClass('position.txt', width, height, FrameSize, radius)  # объект контроллера
 
 graph.penColor('black')  # цвет рамки
 graph.penSize(FrameSize)  # ширина рамки
@@ -38,35 +29,16 @@ def mov(event):
 
 def update():
 
-    for dot in dots:
+    for dot in objects.dots:
 
         if platform.p != 0:
 
-            for sqr in blocks.enemys:  # контакт шарика с блоками
-                if (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.width
-                and graph.yCoord(sqr.object) + blocks.height == dot.getPosition('y'))\
-                or (graph.xCoord(sqr.object) <= dot.getPosition('x') <= graph.xCoord(sqr.object) + blocks.width
-                and graph.yCoord(sqr.object) == dot.getPosition('y') + dot.radius())\
-                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.height
-                and graph.xCoord(sqr.object) == dot.getPosition('x') + dot.radius())\
-                or (graph.yCoord(sqr.object) <= dot.getPosition('y') <= graph.yCoord(sqr.object) + blocks.height
-                and graph.xCoord(sqr.object) + blocks.width == dot.getPosition('x') - dot.radius()):
-                    schet.score += sqr.strenght
-                    sqr.strenght -= 1
-                    dot.setOffset(dy=-1 * dot.getOffset('y'))
-                    dot.setOffset(dx=1 * dot.getOffset('x'))
-                    sqr.set_color().update_object()
-                    if sqr.strenght == 0:
-                        graph.deleteObject(sqr.object)
-                        del blocks.enemys[blocks.enemys.index(sqr)]
-                    schet.mklable()
 
             dot.circleInWindow()
 
             dot.checkBrusochekContact(platform.position_update(), platform.w, platform.h)
 
-            dot.move()
-            graph.moveObjectTo(dot.obj(), dot.getPosition('x'), dot.getPosition('y'))  # движение шарика
+            objects.cirleMov()
 
             if dot.getPosition('y') + dot.radius() >= height + radius:  # условие проигрыша
                 graph.close()
@@ -80,4 +52,4 @@ graph.onKey(mov)
 graph.onTimer(update, 10)
 graph.run()
 
-print(schet.score)
+#print(schet.score)

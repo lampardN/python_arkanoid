@@ -2,29 +2,29 @@ from graph import *
 
 
 class Enemy:
-    def __init__(self, x=0, y=0, width=100, height=10, strenght=1, color=randColor()):
+    def __init__(self, x=0, y=0, width=100, height=10, strength=1, color=randColor()):
         self.x = x
         self.y = y
         self.height = height
         self.width = width
-        self.strenght = strenght
+        self.strength = strength
         self.color = color
         self.object = object
         self.set_color()
         self.make_sqr()
 
     def set_color(self):
-        if self.strenght == 1:
+        if self.strength == 1:
             self.color = 'purple'
-        elif self.strenght == 2:
+        elif self.strength == 2:
             self.color = 'light blue'
-        elif self.strenght == 3:
+        elif self.strength == 3:
             self.color = 'cyan'
-        elif self.strenght == 4:
+        elif self.strength == 4:
             self.color = 'red'
-        elif self.strenght == 5:
+        elif self.strength == 5:
             self.color = 'pink'
-        elif self.strenght == 6:
+        elif self.strength == 6:
             self.color = 'green'
         return self
 
@@ -36,7 +36,7 @@ class Enemy:
         return self
 
     def update_object(self):
-        if self.strenght == -1:
+        if self.strength == -1:
             deleteObject(self.object)
         deleteObject(self.object)
         penSize(3)

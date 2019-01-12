@@ -76,3 +76,20 @@ class CircleClass:
             self.dx *= -1
         if self.y - self.radius() < -self.radius():  # если ушёо за рамку вверх
             self.dy *= -1
+
+    def blocks_contact(self, brPosX, brPosY, brWidth, brHeight):
+        if brPosX <= self.x <= brPosX + brWidth and self.y == brPosY + brHeight:
+            self.dx *= -1
+            self.dy *= -1
+            return True
+        if brPosX <= self.x <= brPosX + brWidth and self.y == brPosY:
+            self.dx *= -1
+            self.dy *= -1
+            return True
+        if brPosY <= self.y <= brPosY + brHeight and self.x == brPosX:
+            self.dx *= -1
+            return True
+        if brPosY <= self.y <= brPosY + brHeight and self.x == brPosX + brWidth:
+            self.dx *= -1
+            return True
+        return False
