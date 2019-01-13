@@ -12,6 +12,7 @@ class CircleClass:
         self.color = color
         self.filedWidth = fieldWidth
         self.filedHeight = fieldHeight
+        self.boolean = True
         self.createCircle()
 
     def getPosition(self, pType):
@@ -81,15 +82,20 @@ class CircleClass:
         if brPosX <= self.x <= brPosX + brWidth and self.y == brPosY + brHeight:
             self.dx *= -1
             self.dy *= -1
-            return True
+            self.boolean = True
+            return self
         if brPosX <= self.x <= brPosX + brWidth and self.y == brPosY:
             self.dx *= -1
             self.dy *= -1
-            return True
+            self.boolean = True
+            return self
         if brPosY <= self.y <= brPosY + brHeight and self.x == brPosX:
             self.dx *= -1
-            return True
+            self.boolean = True
+            return self
         if brPosY <= self.y <= brPosY + brHeight and self.x == brPosX + brWidth:
             self.dx *= -1
-            return True
-        return False
+            self.boolean = True
+            return self
+        self.boolean = False
+        return self

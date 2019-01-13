@@ -1,6 +1,7 @@
 from graph import *
 from enemy import Enemy
 from Circle import CircleClass
+from brusochek import Brusochek
 
 
 class ControllerClass:
@@ -17,6 +18,7 @@ class ControllerClass:
         self.circlePosX = width/2
         self.circlePosY = height - self.Block_height*2
         self.circleRadius = radius
+        self.brusochek = Brusochek(self.width, self.width/3, self.height, 20, 15, 100)
         self.score = score
         self.score_text = "Score - "
         self.mklable()
@@ -24,7 +26,6 @@ class ControllerClass:
         self.dots = []
         self.set_circles()
         self.set_objects()
-
 
     def set_objects(self):
         self.x = 8
@@ -53,10 +54,11 @@ class ControllerClass:
         label(self.score_text + str(self.score), 0, self.height + 20)
 
     def cirleMov(self):
-        for block in self.enemys:
-            for dot in self.dots:
-                if dot.blocks_contact(block.x, block.y, self.Block_width,  self.Block_height) == True:
+        for dot in self.dots:
+            for block in self.enemys:
+                dot.blocks_contact(block.x, block.y, self.Block_width,  self.Block_height)
+                if True == dot.boolean:
                     self.score += block.strength
+                dot.checkBrusochekContact(self.brusochek.x, self.brusochek.width, self.brusochek.height)
                 dot.move()
                 moveObjectTo(dot.obj(), dot.getPosition('x'), dot.getPosition('y'))
-

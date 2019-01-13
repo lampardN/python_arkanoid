@@ -2,21 +2,20 @@ from graph import *
 
 
 class Brusochek:
-    def __init__(self, x=50, y=20, dx=5, h=10, w=100, color=randColor()):
+    def __init__(self,windowWidth, x=50, y=20, dx=5, height=10, width=100, color=randColor()):
         self.x = x
+        self.y = y
         self.dx = dx
-        self.h = h
-        self.w = w
+        self.height = height
+        self.width = width
         self.color = color
         self.object = object
-        self.first_p = (0, 0)
-        self.second_p = (50, 50)
-        self.y = y
         self.p = 0
         self.make_sqr()
+        self.set_down(windowWidth)
 
     def set_down(self, width):
-        moveObjectTo(self.object, width/2 - self.w/2, self.y-self.h)
+        moveObjectTo(self.object, width/2 - self.width/2, self.y-self.height)
         return self
 
     def make_sqr(self):
@@ -35,7 +34,7 @@ class Brusochek:
         if turn == VK_SPACE and self.p == 0:
             self.p += 1
         else:
-            if self.x + self.w >= width - 5 and turn == VK_RIGHT:
+            if self.x + self.width >= width - 5 and turn == VK_RIGHT:
                 return
 
             if self.x <= 5 and turn == VK_LEFT:
@@ -48,4 +47,4 @@ class Brusochek:
                 self.x += self.dx
 
             if turn == VK_RIGHT or turn == VK_LEFT:
-                moveObjectTo(self.object, self.x, self.y - self.h)
+                moveObjectTo(self.object, self.x, self.y - self.height)
