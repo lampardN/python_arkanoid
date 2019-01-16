@@ -1,6 +1,6 @@
 from graph import *
 from random import randint
-from circle import Circle
+from Circle import Circle
 from enemy import Enemy
 from platform import Platform
 
@@ -49,37 +49,4 @@ class ControllerClass:
     def circle_block_contact(self):
         for dot in self.dots:
             for block in self.enemies:
-
-                if block.x <= dot.x <= block.x + block.width and dot.y + dot.radius*2 == block.y + block.height:
-                    dot.dy *= -1
-                    self.score += block.strength
-                    self.make_label()
-                    block.strength -= 1
-                    block.set_color()
-                    block.update()
-
-                if block.x <= dot.x <= block.x + block.width and dot.y - dot.radius*2 == block.y:
-                    dot.dy *= -1
-                    self.score += block.strength
-                    self.make_label()
-                    block.strength -= 1
-                    block.set_color()
-                    block.update()
-
-                if block.y <= dot.y <= block.y + block.height and dot.x + dot.radius == block.x:
-                    dot.dx *= -1
-                    self.score += block.strength
-                    self.make_label()
-                    block.strength -= 1
-                    block.set_color()
-                    block.update()
-                    if block != object:
-                        del block
-
-                if block.y <= dot.y <= block.y + block.height and dot.x - dot.radius == block.x + block.width:
-                    dot.dx *= -1
-                    self.score += block.strength
-                    self.make_label()
-                    block.strength -= 1
-                    block.set_color()
-                    block.update()
+                dot.block_contact(block.x, block.y, block.width, block.height)

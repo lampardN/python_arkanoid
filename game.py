@@ -1,5 +1,5 @@
 from graph import *
-from controller import ControllerClass
+from Controller import ControllerClass
 
 windowWidth = 600
 windowHeight = 800

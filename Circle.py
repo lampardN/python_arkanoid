@@ -1,5 +1,17 @@
 from graph import *
+from math import *
 
+def top_bottom(y0, x0, x1, y_up, y_down, r):
+    koren = sqrt(pow(r, 2) - pow(x1 - x0, 2))
+    y1 = y0 + koren
+    y2 = y0 - koren
+    return min(y_up - abs(y0 - koren), y_down - abs(y0 + koren),
+               y_up + abs(y0 - koren), y_down + abs(y0-koren))
+
+def left_right(x0, y0, y1,x_right, x_left, r):
+    koren = sqrt(pow(r, 2) - pow(y1 - x0, 2))
+    return min(x_right - abs(y0 - koren), x_left - abs(y0 + koren),
+               x_right + abs(y0 - koren), x_left + abs(y0-koren))
 
 class Circle:
     def __init__(self, x=100, y=100, dx=1, dy=1, radius=5, color='black'):
@@ -37,3 +49,22 @@ class Circle:
         if platform_pos_x <= self.x <= platform_pos_x + platform_width and self.y + self.radius*2 == platform_pos_y:
             self.dy *= -1
         return self
+
+    def block_contact(self, platform_x, platform_y, platform_width, platform_height):
+        if platform_x <= self.x <= platform_x + platform_width:
+            x1 = self.x
+        if self.x <= platform_x <= self.x + self.radius:
+            x1 = platform_x
+        if self.x <= platform_x + platform_width <= self.x + self.radius:
+            x1 = platform_x + platform_width
+        if platform_y <= self.y <= platform_y + platform_height:
+            y1 = self.y
+        if self.y <= platform_y <= self.y + self.radius:
+            y1 = platform_y
+        if self.y <= platform_y + platform_height <= self.y + self.radius:
+            y1 = platform_y + platform_height
+
+        if top_bottom(self.x, self.y, x1, platform_y, platform_height + platform_y, self.radius) < 1:
+            self.dy *= -1
+        if left_right(self.x, self.y, y1, platform_x, platform_x + platform_width, self.radius):
+            self.dx *= -1
