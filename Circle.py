@@ -17,9 +17,9 @@ class Circle:
         self.object = circle(self.x, self.y, self.radius)
 
     def circle_in_window(self, window_width, window_height):
-        if self.x - self.radius <= 0:
+        if self.x - self.radius <= -self.radius:
             self.dx *= -1
-        if self.y - self.radius <= 0:
+        if self.y - self.radius <= -self.radius:
             self.dy *= -1
         if self.x + self.radius >= window_width:
             self.dx *= -1

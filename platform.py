@@ -9,7 +9,7 @@ class Platform:
         self.height = height
         self.x = self.window_width//2 - self.width//2
         self.y = self.window_height - self.height
-        self.dx = 5
+        self.dx = 8
         self.object = object
         self.mk_platform()
 

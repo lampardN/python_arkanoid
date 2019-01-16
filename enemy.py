@@ -37,7 +37,7 @@ class Enemy:
         self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
 
     def update(self):
-        if self.strength == 0:
+        if self.strength <= 0:
             deleteObject(self.object)
         else:
             deleteObject(self.object)

@@ -11,6 +11,7 @@ class ControllerClass:
         self.window_height = window_height
         self.x = 0
         self.y = 0
+        self.radius = 10
         self.dots = []
         self.enemies = []
         self.platform = Platform(100, 20, self.window_width, self.window_height)
@@ -32,7 +33,8 @@ class ControllerClass:
         return self
 
     def make_circles(self):
-        self.dots.append(Circle(200, 200, 1, 1, 5))
+        penSize(0)
+        self.dots.append(Circle(self.platform.x + self.platform.width//2, self.platform.y - self.radius*2, 1, 1, self.radius))
 
     def make_label(self):
         label(self.score_label + str(self.score), 0, self.window_height + 20)
@@ -48,7 +50,7 @@ class ControllerClass:
         for dot in self.dots:
             for block in self.enemies:
 
-                if block.x <= dot.x <= block.x + block.width and dot.y + dot.radius == block.y + block.height:
+                if block.x <= dot.x <= block.x + block.width and dot.y + dot.radius*2 == block.y + block.height:
                     dot.dy *= -1
                     self.score += block.strength
                     self.make_label()
@@ -56,7 +58,7 @@ class ControllerClass:
                     block.set_color()
                     block.update()
 
-                if block.x <= dot.x <= block.x + block.width and dot.y + dot.radius == block.y:
+                if block.x <= dot.x <= block.x + block.width and dot.y - dot.radius*2 == block.y:
                     dot.dy *= -1
                     self.score += block.strength
                     self.make_label()
@@ -71,6 +73,8 @@ class ControllerClass:
                     block.strength -= 1
                     block.set_color()
                     block.update()
+                    if block != object:
+                        del block
 
                 if block.y <= dot.y <= block.y + block.height and dot.x - dot.radius == block.x + block.width:
                     dot.dx *= -1
