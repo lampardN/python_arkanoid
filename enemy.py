@@ -2,16 +2,18 @@ from graph import *
 
 
 class Enemy:
-    def __init__(self, x=0, y=0, width=100, height=10, strength=1, color=randColor()):
+    def __init__(self, x, y, window_width, window_height, strength):
         self.x = x
         self.y = y
-        self.height = height
-        self.width = width
+        self.window_width = window_width
+        self.window_height = window_height
+        self.width = window_width//10
+        self.height = 20
         self.strength = strength
-        self.color = color
+        self.color = ''
         self.object = object
         self.set_color()
-        self.make_sqr()
+        self.mk_enemy()
 
     def set_color(self):
         if self.strength == 1:
@@ -28,19 +30,19 @@ class Enemy:
             self.color = 'green'
         return self
 
-    def make_sqr(self):
-        penSize(3)
+    def mk_enemy(self):
+        penSize(1)
         penColor('black')
         brushColor(self.color)
-        self.object = rectangle(self.x, self.y, self.width, self.height)
-        return self
+        self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
 
-    def update_object(self):
-        if self.strength == -1:
+    def update(self):
+        if self.strength == 0:
             deleteObject(self.object)
-        deleteObject(self.object)
-        penSize(3)
-        penColor('black')
-        brushColor(self.color)
-        self.object = rectangle(self.x, self.y, self.width, self.height)
+        else:
+            deleteObject(self.object)
+            penSize(1)
+            penColor('black')
+            brushColor(self.color)
+            self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
         return self
