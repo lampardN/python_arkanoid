@@ -47,6 +47,13 @@ class ControllerClass:
             dot.move()
 
     def circle_block_contact(self):
-        for dot in self.dots:
-            for block in self.enemies:
-                dot.block_contact(block.x, block.y, block.width, block.height)
+        for block in self.enemies:
+            for dot in self.dots:
+                if dot.block_contact(block.x, block.y, block.width, block.height):
+                    block.strength -= 1
+                    block.set_color()
+                    if block.strength <= 0:
+                        deleteObject(block.object)
+                        del self.enemies[self.enemies.index(block)]
+                    else:
+                        block.update()
