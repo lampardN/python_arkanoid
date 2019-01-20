@@ -2,16 +2,16 @@ from graph import *
 
 
 class Enemy:
-    def __init__(self, x, y, window_width, window_height, strength):
+    def __init__(self, x, y, width, height, strength, borderWidth, borderColor):
         self.x = x
         self.y = y
-        self.window_width = window_width
-        self.window_height = window_height
-        self.width = window_width//10
-        self.height = 20
+        self.width = width
+        self.height = height
         self.strength = strength
         self.color = ''
-        self.object = object
+        self.object = None
+        self.borderWidth = borderWidth
+        self.borderColor = borderColor
         self.set_color()
         self.mk_enemy()
 
@@ -31,8 +31,8 @@ class Enemy:
         return self
 
     def mk_enemy(self):
-        penSize(1)
-        penColor('black')
+        penSize(self.borderWidth)
+        penColor(self.borderColor)
         brushColor(self.color)
         self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
 

@@ -6,16 +6,24 @@ def top_bottom(x0, y0, x1, y_up, y_down, r):
     koren = sqrt(r**2 - (x1 - x0)**2)
     y1 = y0 + koren
     y2 = y0 - koren
-    return min(abs(y_up-y1), abs(y_up-y2),
-               abs(y_down-y1), abs(y_down-y2))
+    return min(
+        abs(y_up - y1),
+        abs(y_up - y2),
+        abs(y_down - y1),
+        abs(y_down - y2)
+    )
 
 
-def left_right(x0, y0, y1,x_right, x_left, r):
+def left_right(x0, y0, y1, x_right, x_left, r):
     koren = sqrt(r**2 -(y1 - y0)**2)
     x1 = x0 + koren
     x2 = x0 - koren
-    return min(abs(x_right-x1 - 10), abs(x_right-x2- 10),
-               abs(x_left-x1- 10), abs(x_left-x2-10))
+    return min(
+        abs(x_right - x1),
+        abs(x_right - x2),
+        abs(x_left - x1),
+        abs(x_left - x2)
+    )
 
 
 class Circle:
@@ -31,7 +39,7 @@ class Circle:
 
     def mk_circle(self):
         brushColor(self.color)
-        self.object = circle(self.x, self.y, self.radius)
+        self.object = circle(self.x - self.radius, self.y - self.radius, self.radius)
 
     def circle_in_window(self, window_width, window_height):
         if self.x - self.radius <= -self.radius:
@@ -47,7 +55,11 @@ class Circle:
     def move(self):
         self.x += self.dx
         self.y += self.dy
-        moveObjectTo(self.object, self.x, self.y)
+
+        objectX = self.x - self.radius
+        objectY = self.y - self.radius
+
+        moveObjectTo(self.object, objectX, objectY)
         return self
 
     def check_platform_contact(self, platform_pos_x, platform_pos_y, platform_width):
@@ -55,30 +67,124 @@ class Circle:
             self.dy *= -1
         return self
 
-    def block_contact(self, platform_x, platform_y, platform_width, platform_height):
+    def block_contact(self, block_x, block_y, block_width, block_height):
         x1 = None
         y1 = None
-        if platform_x <= self.x <= platform_x + platform_width:
-            x1 = self.x
-        if self.x <= platform_x <= self.x + self.radius:
-            x1 = platform_x
-        if self.x - self.radius <= platform_x + platform_width <= self.x:
-            x1 = platform_x + platform_width
-        if platform_y <= self.y <= platform_y + platform_height:
-            y1 = self.y
-        if self.y <= platform_y <= self.y + self.radius:
-            y1 = platform_y
-        if self.y - self.radius <= platform_y + platform_height <= self.y:
-            y1 = platform_y + platform_height
 
-        if x1 != None:
-            if top_bottom(self.x, self.y, x1, platform_y, platform_height + platform_y, self.radius) < 1:
+        '''Касание снизу и сверху'''
+        blockDown = block_y + block_height
+        blockUp = block_y
+
+        '''Если центр шарика располагается между левой и правой точкой блока'''
+        if block_x <= self.x <= block_x + block_width:
+
+            '''Если шарик снизу от блока'''
+            circleUp = self.y - self.radius
+            if abs(circleUp - blockDown) < 1:
+                self.y = blockDown + self.radius + 1
                 self.dy *= -1
                 return True
 
-        if y1 != None:
-            if left_right(self.x, self.y, y1, platform_x, platform_x + platform_width, self.radius) < 1:
+            '''Если шарик сверху от блока'''
+            circleDown = self.y + self.radius
+            if abs(blockUp - circleDown) < 1:
+                self.y = blockUp - self.radius - 1
+                self.dy *= -1
+                return True
+
+        '''Если шарик располагается рядом с левым углом блока'''
+        if self.x <= block_x <= self.x + self.radius:
+            d = sqrt(self.radius ** 2 - (self.x - block_x)**2)
+
+            '''Если шарик располагается снизу от левого угла'''
+            y = self.y - d
+            if abs(y - blockDown) < 1:
+                self.y = blockDown + self.radius + 1
+                self.dy *= -1
+                return True
+
+            '''Если шарик располагается сверху от левого угла'''
+            y = self.y + d
+            if abs(blockUp - y) < 1:
+                self.y = blockUp - self.radius - 1
+                self.dy *= -1
+                return True
+
+        '''Если шарик располагается рядом с правым углом блока'''
+        if self.x - self.radius <= block_x + block_width <= self.x:
+            block_right = block_width + block_x
+            d = sqrt(self.radius ** 2 - (self.x - block_right) ** 2)
+
+            '''Если шарик располагается снизу от правого угла'''
+            y = self.y - d
+            if abs(y - blockDown) < 1:
+                self.y = blockDown + self.radius + 1
+                self.dy *= -1
+                return True
+
+            '''Если шарик располагается сверху от правого угла'''
+            y = self.y + d
+            if abs(blockUp - y) < 1:
+                self.y = blockUp - self.radius - 1
+                self.dy *= -1
+                return True
+
+        '''Если центр шарика лежит между верхней и нижней границей блока'''
+        if block_y <= self.y <= block_y + block_height:
+
+            '''Если шарик лежит слева от блока'''
+            circleX = self.x + self.radius
+            if abs(circleX - block_x) < 1:
+                self.x = block_x - self.radius - 1
                 self.dx *= -1
                 return True
+
+            '''Если шарик лежит справа от блока'''
+            circleX = self.x - self.radius
+            blockRight = block_x + block_width
+            if abs(circleX - blockRight) < 1:
+                self.x = blockRight + self.radius + 1
+                self.dx *= -1
+                return True
+
+        '''Если шарик касается нижнего угла блока'''
+        blockDown = block_y + block_height
+        if self.y + self.radius <= blockDown <= self.y:
+            d = sqrt(self.radius ** 2 - (self.y - blockDown) ** 2)
+
+            '''Если шарик лежит слева от нижнего угла'''
+            circleX = self.x + d
+            if abs(circleX - block_x) < 1:
+                self.x = block_x - self.radius - 1
+                self.dx *= -1
+                return True
+
+            '''Если шарик лежит справа от нижнего угла'''
+            circleX = self.x - d
+            blockRight = block_x + block_width
+            if abs(circleX - blockRight) < 1:
+                self.x = blockRight + self.radius + 1
+                self.dx *= -1
+                return True
+
+        '''Если шарик касается верхнего угла блока'''
+        if self.y - self.radius <= block_y <= self.y:
+            d = sqrt(self.radius ** 2 - (self.y - block_y) ** 2)
+
+            '''Если шарик лежит слева от верхнего угла'''
+            circleX = self.x + d
+            if abs(circleX - block_x) < 1:
+                self.x = block_x - self.radius - 1
+                self.dx *= -1
+                return True
+
+            '''Если шарик лежит справа от верхнего угла'''
+            circleX = self.x - d
+            blockRight = block_x + block_width
+            if abs(circleX - blockRight) < 1:
+                self.x = blockRight + self.radius + 1
+                self.dx *= -1
+                return True
+
 
         return False

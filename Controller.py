@@ -22,7 +22,24 @@ class ControllerClass:
         self.set_enemies()
 
     def set_enemies(self):
-        for i in range(self.window_height//100):
+        blockWidth = self.window_width // 10
+        blockHeight = 20
+        top = 0
+        left = -blockWidth
+        for i in range(3):
+            for j in range(10):
+                strength = randint(1, 6)
+                left += blockWidth
+                if strength == 0: continue
+                self.enemies.append(
+                    Enemy(left, top, blockWidth, blockHeight, strength, 1, 'black')
+                )
+
+            top += blockHeight
+            left = 0
+
+
+        '''for i in range(self.window_height//100):
             for j in range(self.window_width//10):
                 strength = randint(0, 6)
                 if strength != 0:
@@ -30,7 +47,7 @@ class ControllerClass:
                 self.x += self.window_width//10
             self.x = 0
             self.y += 20
-        return self
+        return self'''
 
     def make_circles(self):
         penSize(0)
