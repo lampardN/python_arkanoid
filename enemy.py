@@ -9,7 +9,7 @@ class Enemy:
         self.height = height
         self.strength = strength
         self.color = ''
-        self.object = None
+        self.object = object
         self.borderWidth = borderWidth
         self.borderColor = borderColor
         self.set_color()

@@ -42,7 +42,7 @@ class Circle:
         self.object = circle(self.x - self.radius, self.y - self.radius, self.radius)
 
     def circle_in_window(self, window_width, window_height):
-        if self.x - self.radius <= -self.radius:
+        if self.x <= self.radius:
             self.dx *= -1
         if self.y - self.radius <= -self.radius:
             self.dy *= -1
@@ -62,14 +62,10 @@ class Circle:
         moveObjectTo(self.object, objectX, objectY)
         return self
 
-    def check_platform_contact(self, platform_pos_x, platform_pos_y, platform_width):
-        if platform_pos_x <= self.x <= platform_pos_x + platform_width and self.y + self.radius*2 == platform_pos_y:
-            self.dy *= -1
-        return self
+    def check_platform_contact(self, platform_pos_x, platform_pos_y, platform_width, platform_height):
+        self.block_contact(platform_pos_x, platform_pos_y, platform_width, platform_height)
 
     def block_contact(self, block_x, block_y, block_width, block_height):
-        x1 = None
-        y1 = None
 
         '''Касание снизу и сверху'''
         blockDown = block_y + block_height

@@ -7,6 +7,7 @@ windowSize(windowWidth + 3, windowHeight + 40)
 canvasSize(windowWidth, windowHeight)
 canvasPos(0, 0)
 controller = ControllerClass(windowWidth, windowHeight)
+keyPressed = False
 
 
 def update():

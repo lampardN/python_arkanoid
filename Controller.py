@@ -11,6 +11,7 @@ class ControllerClass:
         self.window_height = window_height
         self.x = 0
         self.y = 0
+        self.blocks_in_line = 10
         self.radius = 10
         self.dots = []
         self.enemies = []
@@ -22,12 +23,12 @@ class ControllerClass:
         self.set_enemies()
 
     def set_enemies(self):
-        blockWidth = self.window_width // 10
+        blockWidth = self.window_width // self.blocks_in_line
         blockHeight = 20
         top = 0
         left = -blockWidth
         for i in range(3):
-            for j in range(10):
+            for j in range(self.blocks_in_line):
                 strength = randint(1, 6)
                 left += blockWidth
                 if strength == 0: continue
@@ -36,7 +37,7 @@ class ControllerClass:
                 )
 
             top += blockHeight
-            left = 0
+            left = -blockWidth
 
 
         '''for i in range(self.window_height//100):
@@ -60,7 +61,7 @@ class ControllerClass:
         for dot in self.dots:
             self.circle_block_contact()
             dot.circle_in_window(self.window_width, self.window_height)
-            dot.check_platform_contact(self.platform.x, self.platform.y, self.platform.width)
+            dot.check_platform_contact(self.platform.x, self.platform.y, self.platform.width, self.platform.height)
             dot.move()
 
     def circle_block_contact(self):
