@@ -58,11 +58,17 @@ class ControllerClass:
         label(self.score_label + str(self.score), 0, self.window_height + 20)
 
     def circle_move(self):
-        for dot in self.dots:
-            self.circle_block_contact()
-            dot.circle_in_window(self.window_width, self.window_height)
-            dot.check_platform_contact(self.platform.x, self.platform.y, self.platform.width, self.platform.height)
-            dot.move()
+        if self.platform.p == 0:
+            for dot in self.dots:
+                moveObjectTo(dot.object, self.platform.x + self.platform.width//2 - self.radius, self.platform.y - self.radius*2 - 4)
+                dot.x = xCoord(dot.object)
+                dot.y = yCoord(dot.object)
+        else:
+            for dot in self.dots:
+                self.circle_block_contact()
+                dot.circle_in_window(self.window_width, self.window_height)
+                dot.check_platform_contact(self.platform.x, self.platform.y, self.platform.width, self.platform.height)
+                dot.move()
 
     def circle_block_contact(self):
         for block in self.enemies:

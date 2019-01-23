@@ -10,6 +10,7 @@ class Platform:
         self.x = self.window_width//2 - self.width//2
         self.y = self.window_height - self.height
         self.dx = 8
+        self.p = 0
         self.object = object
         self.mk_platform()
 
@@ -21,6 +22,8 @@ class Platform:
         return self
 
     def move(self, event):
+        if event.keycode == VK_SPACE:
+            self.p += 1
         dx = 0
         if event.keycode == VK_LEFT or event.keycode == VK_RIGHT:
             if self.x + self.width >= self.window_width and event.keycode == VK_RIGHT:
