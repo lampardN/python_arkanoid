@@ -22,6 +22,7 @@ class ControllerClass:
         self.make_circles()
         self.set_enemies()
 
+
     def set_enemies(self):
         blockWidth = self.window_width // self.blocks_in_line
         blockHeight = 20
@@ -29,7 +30,7 @@ class ControllerClass:
         left = -blockWidth
         for i in range(3):
             for j in range(self.blocks_in_line):
-                strength = randint(1, 6)
+                strength = randint(1, 10)
                 left += blockWidth
                 if strength == 0: continue
                 self.enemies.append(
@@ -39,16 +40,6 @@ class ControllerClass:
             top += blockHeight
             left = -blockWidth
 
-
-        '''for i in range(self.window_height//100):
-            for j in range(self.window_width//10):
-                strength = randint(0, 6)
-                if strength != 0:
-                    self.enemies.append(Enemy(self.x, self.y, self.window_width, self.window_height, strength))
-                self.x += self.window_width//10
-            self.x = 0
-            self.y += 20
-        return self'''
 
     def make_circles(self):
         penSize(0)
@@ -69,11 +60,14 @@ class ControllerClass:
                 dot.circle_in_window(self.window_width, self.window_height)
                 dot.check_platform_contact(self.platform.x, self.platform.y, self.platform.width, self.platform.height)
                 dot.move()
+            self.lose()
 
     def circle_block_contact(self):
         for block in self.enemies:
             for dot in self.dots:
                 if dot.block_contact(block.x, block.y, block.width, block.height):
+                    self.score += block.strength
+                    self.make_label()
                     block.strength -= 1
                     block.set_color()
                     if block.strength <= 0:
@@ -81,3 +75,18 @@ class ControllerClass:
                         del self.enemies[self.enemies.index(block)]
                     else:
                         block.update()
+
+    def lose(self):
+        for i in self.dots:
+            if i.pos == 'out':
+                print('!!!!!!!!!!!!!!!!')
+                platform.p = 0
+                moveObjectTo(platform.object, self.window_width - 50, self.window_height - 20)
+                for dot in self.dots:
+                    deleteObject(dot)
+                    del dot
+                self.make_circles()
+                for block in self.enemies:
+                    deleteObject(block)
+                    del block
+                self.set_enemies()

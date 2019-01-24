@@ -27,11 +27,12 @@ def left_right(x0, y0, y1, x_right, x_left, r):
 
 
 class Circle:
-    def __init__(self, x=100, y=100, dx=1, dy=1, radius=5, color='black'):
+    def __init__(self, x=100, y=100, dx=1, dy=1, radius=5, color=(randint(0, 255), randint(0, 255), randint(0, 255))):
         self.x = x
         self.y = y
         self.dx = dx
         self.dy = dy
+        self.pos = ''
         self.radius = radius
         self.color = color
         self.object = object
@@ -49,7 +50,7 @@ class Circle:
         if self.x + self.radius >= window_width:
             self.dx *= -1
         if self.y + self.radius >= window_height:
-            self.dy *= -1
+            self.pos = 'out'
         return self
 
     def move(self):
