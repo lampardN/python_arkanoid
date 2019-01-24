@@ -29,12 +29,7 @@ class Enemy:
         self.object = object
         self.borderWidth = borderWidth
         self.borderColor = borderColor
-        self.set_color()
         self.mk_enemy()
-
-    def set_color(self):
-
-        return self
 
     def mk_enemy(self):
         penSize(self.borderWidth)

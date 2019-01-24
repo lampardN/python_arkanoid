@@ -22,7 +22,6 @@ class ControllerClass:
         self.make_circles()
         self.set_enemies()
 
-
     def set_enemies(self):
         blockWidth = self.window_width // self.blocks_in_line
         blockHeight = 20
@@ -39,7 +38,6 @@ class ControllerClass:
 
             top += blockHeight
             left = -blockWidth
-
 
     def make_circles(self):
         penSize(0)
@@ -76,17 +74,20 @@ class ControllerClass:
                     else:
                         block.update()
 
-    def lose(self):
+    def lose(self, event):
         for i in self.dots:
             if i.pos == 'out':
-                print('!!!!!!!!!!!!!!!!')
-                platform.p = 0
-                moveObjectTo(platform.object, self.window_width - 50, self.window_height - 20)
+                self.platform.p = 0
+                moveObjectTo(self.platform.object, self.window_width - 50, self.window_height - 20)
                 for dot in self.dots:
-                    deleteObject(dot)
+                    deleteObject(dot.object)
                     del dot
+                self.dots = []
                 self.make_circles()
                 for block in self.enemies:
                     deleteObject(block)
                     del block
                 self.set_enemies()
+                self.score = 0
+                self.make_label()
+                i.pos = ''
