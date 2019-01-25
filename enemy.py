@@ -2,6 +2,16 @@ from random import randint
 from graph import *
 
 
+def toHex(num):
+    string = ''
+    six = [0, 1, 2, 3 ,4 ,5 ,6 ,7 ,8 ,9, 'A', 'B', 'C', 'D', 'E', 'F']
+    while num > 1:
+        string += str(six[num%16])
+        num //= 16
+    while len(string) != 2:
+        string = '0' + string
+    return string[::-1]
+
 class Enemy:
     def __init__(self,
                  x,
@@ -11,21 +21,18 @@ class Enemy:
                  strength,
                  borderWidth,
                  borderColor,
-                 Red=randint(0, 255),
-                 Green=randint(0,255),
-                 Blue=randint(0,255)
                  ):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.strength = strength
-        self.Red = Red
-        self.deltaRed = Red // 10
-        self.Green = Green
-        self.deltaGreen = Green // 10
-        self.Blue = Blue
-        self.deltaBlue = Blue // 10
+        self.Red = 0
+        self.deltaRed = 25
+        self.Green = 250
+        self.deltaGreen = 25
+        self.Blue = 0
+        self.deltaBlue = 0
         self.object = object
         self.borderWidth = borderWidth
         self.borderColor = borderColor
@@ -34,17 +41,13 @@ class Enemy:
     def mk_enemy(self):
         penSize(self.borderWidth)
         penColor(self.borderColor)
-        Red = 0
-        Green = 0
+        Red = 0 + self.deltaRed * self.strength
+        Green = 250 - self.deltaGreen * self.strength
         Blue = 0
-        for i in range(self.strength):
-            Red += self.deltaRed
-            Green += self.deltaGreen
-            Blue += self.deltaBlue
         self.Red = Red
         self.Green = Green
         self.Blue = Blue
-        brushColor((Red, Green, Blue))
+        brushColor('#'+toHex(Red)+toHex(Green)+toHex(Blue))
         self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
 
     def update(self):
@@ -53,8 +56,8 @@ class Enemy:
             penSize(1)
             penColor('black')
             self.Red -= self.deltaRed
-            self.Green -= self.deltaGreen
-            self.Blue -= self.deltaBlue
-            brushColor((self.Red, self.Green, self.Blue))
+            self.Green += self.deltaGreen
+            self.Blue += self.deltaBlue
+            brushColor('#'+toHex(self.Red)+toHex(self.Green)+toHex(self.Blue))
             self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
         return self

@@ -4,7 +4,6 @@ from Circle import Circle
 from enemy import Enemy
 from platform import Platform
 
-
 class ControllerClass:
     def __init__(self, window_width, window_height):
         self.window_width = window_width
@@ -67,18 +66,22 @@ class ControllerClass:
                     self.score += block.strength
                     self.make_label()
                     block.strength -= 1
-                    block.set_color()
                     if block.strength <= 0:
                         deleteObject(block.object)
                         del self.enemies[self.enemies.index(block)]
                     else:
                         block.update()
 
-    def lose(self, event):
+    def lose(self):
         for i in self.dots:
             if i.pos == 'out':
                 self.platform.p = 0
-                moveObjectTo(self.platform.object, self.window_width - 50, self.window_height - 20)
+                self.platform.x = self.platform.window_width//2 - self.platform.width//2
+                moveObjectTo(
+                    self.platform.object,
+                    self.window_width//2 - self.platform.width//2,
+                    self.window_height - 20
+                )
                 for dot in self.dots:
                     deleteObject(dot.object)
                     del dot
