@@ -4,13 +4,14 @@ from graph import *
 
 def toHex(num):
     string = ''
-    six = [0, 1, 2, 3 ,4 ,5 ,6 ,7 ,8 ,9, 'A', 'B', 'C', 'D', 'E', 'F']
+    six = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F']
     while num > 1:
         string += str(six[num%16])
         num //= 16
     while len(string) != 2:
         string = '0' + string
     return string[::-1]
+
 
 class Enemy:
     def __init__(self,

@@ -4,6 +4,7 @@ from Circle import Circle
 from enemy import Enemy
 from platform import Platform
 
+
 class ControllerClass:
     def __init__(self, window_width, window_height):
         self.window_width = window_width
@@ -72,25 +73,43 @@ class ControllerClass:
                     else:
                         block.update()
 
-    def lose(self):
+    def keys(self, event):
+        if event.keycode == VK_ESCAPE:
+            return close()
+        if event.keycode == VK_SPACE:
+            return self.platform.move('VK_SPACE')
+        if event.keycode == VK_RIGHT:
+            return self.platform.move('VK_RIGHT')
+        if event.keycode == VK_LEFT:
+            return self.platform.move('VK_LEFT')
+        if event.keycode == VK_RETURN:
+            return self.lose('VK_ENTER')
+
+    def lose(self, event=None):
         for i in self.dots:
             if i.pos == 'out':
-                self.platform.p = 0
-                self.platform.x = self.platform.window_width//2 - self.platform.width//2
-                moveObjectTo(
-                    self.platform.object,
-                    self.window_width//2 - self.platform.width//2,
-                    self.window_height - 20
-                )
-                for dot in self.dots:
-                    deleteObject(dot.object)
-                    del dot
-                self.dots = []
-                self.make_circles()
-                for block in self.enemies:
-                    deleteObject(block)
-                    del block
-                self.set_enemies()
-                self.score = 0
-                self.make_label()
-                i.pos = ''
+                for d in self.dots:
+                    d.dx = 0
+                    d.dy = 0
+                self.platform.dx = 0
+                if event == 'VK_ENTER':
+                    self.platform.dx = 8
+                    self.platform.p = 0
+                    self.platform.x = self.platform.window_width//2 - self.platform.width//2
+                    moveObjectTo(
+                        self.platform.object,
+                        self.window_width//2 - self.platform.width//2,
+                        self.window_height - 20
+                    )
+                    for dot in self.dots:
+                        deleteObject(dot.object)
+                        del dot
+                    self.dots = []
+                    self.make_circles()
+                    for block in self.enemies:
+                        deleteObject(block)
+                        del block
+                    self.set_enemies()
+                    self.score = 0
+                    self.make_label()
+                    i.pos = ''

@@ -22,20 +22,20 @@ class Platform:
         return self
 
     def move(self, event):
-        if event.keycode == VK_SPACE:
+        if event == 'VK_SPACE':
             self.p += 1
         dx = 0
-        if event.keycode == VK_LEFT or event.keycode == VK_RIGHT:
-            if self.x + self.width >= self.window_width and event.keycode == VK_RIGHT:
+        if event == 'VK_LEFT' or event == 'VK_RIGHT':
+            if self.x + self.width >= self.window_width and event == 'VK_RIGHT':
                 return
 
-            if self.x <= 0 and event.keycode == VK_LEFT:
+            if self.x <= 0 and event == 'VK_LEFT':
                 return
 
-            if event.keycode == VK_RIGHT:
+            if event == 'VK_RIGHT':
                 dx = self.dx
 
-            if event.keycode == VK_LEFT:
+            if event == 'VK_LEFT':
                 dx = -self.dx
 
             self.x += dx

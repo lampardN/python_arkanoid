@@ -15,5 +15,5 @@ def update():
 
 
 onTimer(update, 10)
-onKey(controller.platform.move)
+onKey(controller.keys)
 run()
