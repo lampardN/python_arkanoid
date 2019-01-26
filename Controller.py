@@ -87,7 +87,7 @@ class ControllerClass:
 
     def lose(self, event=None):
         for i in self.dots:
-            if i.pos == 'out':
+            if i.pos == 'out' or len(self.enemies) == 0:
                 for d in self.dots:
                     d.dx = 0
                     d.dy = 0

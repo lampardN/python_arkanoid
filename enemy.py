@@ -28,12 +28,12 @@ class Enemy:
         self.width = width
         self.height = height
         self.strength = strength
-        self.Red = 0
-        self.deltaRed = 25
-        self.Green = 250
-        self.deltaGreen = 25
-        self.Blue = 0
-        self.deltaBlue = 0
+        self.Red = 140
+        self.deltaRed = 11
+        self.Green = 60
+        self.deltaGreen = 14
+        self.Blue = 215
+        self.deltaBlue = 21
         self.object = object
         self.borderWidth = borderWidth
         self.borderColor = borderColor
@@ -42,9 +42,9 @@ class Enemy:
     def mk_enemy(self):
         penSize(self.borderWidth)
         penColor(self.borderColor)
-        Red = 0 + self.deltaRed * self.strength
-        Green = 250 - self.deltaGreen * self.strength
-        Blue = 0
+        Red = 140 + self.deltaRed * self.strength
+        Green = 60 + self.deltaGreen * self.strength
+        Blue = 215 - self.deltaBlue * self.strength
         self.Red = Red
         self.Green = Green
         self.Blue = Blue
