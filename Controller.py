@@ -20,6 +20,7 @@ class ControllerClass:
         self.score_label = 'Score >> '
         self.make_label()
         self.make_circles()
+        self.random = randint(0, 300)
         self.set_enemies()
 
     def set_enemies(self):

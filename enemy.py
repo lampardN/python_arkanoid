@@ -57,7 +57,7 @@ class Enemy:
             penSize(1)
             penColor('black')
             self.Red -= self.deltaRed
-            self.Green += self.deltaGreen
+            self.Green -= self.deltaGreen
             self.Blue += self.deltaBlue
             brushColor('#'+toHex(self.Red)+toHex(self.Green)+toHex(self.Blue))
             self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
