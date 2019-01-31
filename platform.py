@@ -11,6 +11,8 @@ class Platform:
         self.y = self.window_height - self.height
         self.dx = 8
         self.p = 0
+        self.effect = 0
+        self.timer = 0
         self.object = object
         self.mk_platform()
 
@@ -20,6 +22,27 @@ class Platform:
         penColor('black')
         self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
         return self
+
+    def update_timer(self):
+        self.timer += 1
+        if self.timer == 1000:
+            deleteObject(self.object)
+            self.width = 100
+            penSize(4)
+            brushColor('red')
+            self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
+            self.effect = 0
+            self.timer = 0
+
+
+    def update_effect(self):
+        if self.effect > 0:
+            deleteObject(self.object)
+            self.x -= 10
+            self.width += 10
+            penSize(4)
+            brushColor('red')
+            self.object = rectangle(self.x, self.y, self.x + self.width, self.y + self.height)
 
     def move(self, event):
         if event == 'VK_SPACE':

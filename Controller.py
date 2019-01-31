@@ -3,6 +3,7 @@ from random import randint
 from Circle import Circle
 from enemy import Enemy
 from platform import Platform
+from bonus import Bonus
 
 
 class ControllerClass:
@@ -15,6 +16,7 @@ class ControllerClass:
         self.radius = 10
         self.dots = []
         self.enemies = []
+        self.bonuses = []
         self.platform = Platform(100, 20, self.window_width, self.window_height)
         self.score = 0
         self.score_label = 'Score >> '
@@ -30,7 +32,7 @@ class ControllerClass:
         left = -blockWidth
         for i in range(3):
             for j in range(self.blocks_in_line):
-                strength = randint(1, 10)
+                strength = randint(1, 1)
                 left += blockWidth
                 if strength == 0: continue
                 self.enemies.append(
@@ -59,6 +61,18 @@ class ControllerClass:
                 dot.circle_in_window(self.window_width, self.window_height)
                 dot.check_platform_contact(self.platform.x, self.platform.y, self.platform.width, self.platform.height)
                 dot.move()
+                self.platform.update_timer()
+            if len(self.bonuses) != 0:
+                for bonus in self.bonuses:
+                    bonus.move()
+                    if bonus.block_contact(self.platform.x,
+                                           self.platform.y,
+                                           self.platform.width,
+                                           self.platform.height):
+                        self.platform.effect += 1
+                        self.platform.update_effect()
+                        deleteObject(bonus.object)
+                        del self.bonuses[self.bonuses.index(bonus)]
             self.lose()
 
     def circle_block_contact(self):
@@ -69,6 +83,8 @@ class ControllerClass:
                     self.make_label()
                     block.strength -= 1
                     if block.strength <= 0:
+                        if randint(0, 0) == 0:
+                            self.bonuses.append(Bonus(block.x, block.y, block.width))
                         deleteObject(block.object)
                         del self.enemies[self.enemies.index(block)]
                     else:
