@@ -1,6 +1,8 @@
 from graph import *
 from config import *
 from FieldStub import FieldStub
+from snake import Snake
+from Apple import Apple
 
 
 class FieldClass:
@@ -13,12 +15,13 @@ class FieldClass:
             for j in range(FIELD_PARTS):
                 self.parts[i].append(None)
         self.draw()
+        self.snake = Snake()
+        self.apple = Apple(0, 0)
 
     def draw(self):
         for i in range(len(self.parts)):
             for j in range(len(self.parts[i])):
-                self.parts[i][j] = FieldStub()
-                self.parts[i][j].set_position(i, j)
+                self.parts[i][j] = FieldStub(i, j)
 
     def start(self):
         pass
