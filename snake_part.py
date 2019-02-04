@@ -1,6 +1,5 @@
 from FieldStub import FieldStub
 from config import *
-from graph import *
 
 
 class SnakePart(FieldStub):

@@ -9,7 +9,7 @@ class FieldStub:
         self.y = 0
         self.field_x = field_x
         self.field_y = field_y
-        penSize(1)
+        penSize(0)
         brushColor(self.color)
         self.object = rectangle(self.x, self.y, self.x + FIELD_SIZE, self.y + FIELD_SIZE)
         self.set_position(field_x, field_y)
