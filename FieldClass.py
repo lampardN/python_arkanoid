@@ -18,6 +18,7 @@ class FieldClass:
         self.draw()
         self.snake = Snake()
         self.apple = Apple(0, 0)
+        self.in_pause = True
         self.move_apple()
 
     def draw(self):
@@ -45,3 +46,20 @@ class FieldClass:
 
     def start(self):
         pass
+
+    def revert_game_status(self):
+        if self.in_pause:
+            self.in_pause = False
+        else:
+            self.in_pause = True
+
+    def set_direction(self, event):
+        if event.keycode == VK_UP and self.snake.turn != MOVE_DOWN:
+            self.snake.set_turn(MOVE_UP)
+        if event.keycode == VK_DOWN and self.snake.turn != MOVE_UP:
+            self.snake.set_turn(MOVE_DOWN)
+        if event.keycode == VK_LEFT and self.snake.turn != MOVE_RIGHT:
+            self.snake.set_turn(MOVE_LEFT)
+        if event.keycode == VK_RIGHT and self.snake.turn != MOVE_LEFT:
+            self.snake.set_turn(MOVE_RIGHT)
+        self.snake.move()

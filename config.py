@@ -10,3 +10,9 @@ SNAKE_DEFAULT_POSITION_Y = FIELD_PARTS // 2
 SNAKE_HEAD = 'snake_head'
 SNAKE_BODY = 'snake_body'
 SNAKE_TAIL = 'snake_tail'
+
+MOVE_NONE = 'none'
+MOVE_UP = 'up'
+MOVE_DOWN = 'down'
+MOVE_LEFT = 'left'
+MOVE_RIGHT = 'right'

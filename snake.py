@@ -16,12 +16,30 @@ class Snake:
             self.field_y += 1
         self.snake_parts.append(SnakePart(SNAKE_TAIL, self.field_x, self.field_y))
         self.field_y += 1
+        self.turn = MOVE_UP
 
     def move(self):
-        pass
+        for part in self.snake_parts:
+            turn = self.direction_offset()
+            moveObjectBy(part.object, turn[0], turn[1])
 
     def eat(self):
         pass
 
     def strike(self):
         pass
+
+    def set_turn(self, turn_direction):
+        self.turn = turn_direction
+
+    def direction_offset(self):
+        if self.turn == MOVE_NONE:
+            return [0,0]
+        if self.turn == MOVE_UP:
+            return [0,-FIELD_SIZE]
+        if self.turn == MOVE_DOWN:
+            return  [0,FIELD_SIZE]
+        if self.turn == MOVE_LEFT:
+            return [-FIELD_SIZE,0]
+        if self.turn == MOVE_RIGHT:
+            return [FIELD_SIZE,0]

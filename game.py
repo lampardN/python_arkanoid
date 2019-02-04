@@ -2,5 +2,5 @@ from FieldClass import FieldClass
 from graph import *
 
 e = FieldClass()
-e.snake.move()
+onTimer(onKey(e.set_direction))
 run()
