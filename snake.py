@@ -19,9 +19,18 @@ class Snake:
         self.turn = MOVE_UP
 
     def move(self):
-        for part in self.snake_parts:
-            turn = self.direction_offset()
-            moveObjectBy(part.object, turn[0], turn[1])
+        turn = self.direction_offset()
+        last_pos = (self.snake_parts[0].field_x,
+                    self.snake_parts[0].field_y)
+        moveObjectBy(self.snake_parts[0].object, turn[0], turn[1])
+        self.snake_parts[0].field_x = last_pos[0] + turn[0]
+        self.snake_parts[0].field_y = last_pos[1] + turn[1]
+        for i in range(1, len(self.snake_parts)):
+            moveObjectTo(self.snake_parts[i].object, last_pos[0], last_pos[1])
+            last_pos = (self.snake_parts[i].field_x,
+                        self.snake_parts[i].field_y)
+            self.snake_parts[i].field_x = last_pos[0] + turn[0]
+            self.snake_parts[i].field_y = last_pos[1] + turn[1]
 
     def eat(self):
         pass
