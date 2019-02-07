@@ -11,3 +11,4 @@ class SnakePart(FieldStub):
             self.set_color('red')
         if part_type == SNAKE_BODY:
             self.set_color('yellow')
+        self.set_position(field_x, field_y)
