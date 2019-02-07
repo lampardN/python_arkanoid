@@ -2,6 +2,8 @@ from FieldClass import FieldClass
 from graph import *
 
 e = FieldClass()
+
+
 def update():
     e.move()
 

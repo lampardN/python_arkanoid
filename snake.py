@@ -20,26 +20,30 @@ class Snake:
 
     def move(self):
         turn = self.direction_offset()
-        '''self.snake_parts[0].field_x += turn[0]
-        self.snake_parts[0].field_y += turn[1]
-        self.snake_parts[0].set_position(self.snake_parts[0].field_x,
-                                         self.snake_parts[0].field_y)
-        for i in range(1, len(self.snake_parts)-1):
-            self.snake_parts[i].set_position(self.snake_parts[i-1].field_x,
-                                             self.snake_parts[i-1].field_y)'''
-
-        headX = self.snake_parts[0].field_x
-        headY = self.snake_parts[0].field_y
-        headX += turn[0]
-        headY += turn[1]
+        head_x = self.snake_parts[0].field_x
+        head_y = self.snake_parts[0].field_y
+        head_x += turn[0]
+        head_y += turn[1]
         for i in range(len(self.snake_parts)-1, -1, -1):
             current = self.snake_parts[i]
             next = self.snake_parts[i-1]
             current.set_position(next.field_x, next.field_y)
-        self.snake_parts[0].set_position(headX, headY)
+        self.snake_parts[0].set_position(head_x, head_y)
 
-    def eat(self):
-        pass
+    def eat(self, apple):
+        turn = self.direction_offset()
+        apple_coord = (apple.field_x, apple.field_y)
+        next_coord = (self.snake_parts[0].field_x + turn[0],
+                      self.snake_parts[0].field_y + turn[1])
+        if apple_coord == next_coord:
+            self.snake_parts.insert(1, SnakePart(SNAKE_BODY,
+                                                 self.snake_parts[0].field_x,
+                                                 self.snake_parts[0].field_y))
+            self.snake_parts[0].field_x += turn[0]
+            self.snake_parts[0].field_y += turn[1]
+            self.snake_parts[0].set_position(self.snake_parts[0].field_x,
+                                             self.snake_parts[0].field_y)
+            return True
 
     def strike(self):
         pass
