@@ -40,9 +40,10 @@ class FieldClass:
             if snake_position.count(positions[i]) == 0:
                 result_positions.append(positions[i])
         apple_pos = result_positions[randint(0, len(result_positions))]
-        moveObjectTo(self.apple.object, apple_pos[0]*FIELD_SIZE, apple_pos[1]*FIELD_SIZE)
+        '''moveObjectTo(self.apple.object, apple_pos[0]*FIELD_SIZE, apple_pos[1]*FIELD_SIZE)
         self.apple.field_x = apple_pos[0]
-        self.apple.field_y = apple_pos[1]
+        self.apple.field_y = apple_pos[1]'''
+        self.apple.set_position(apple_pos[0], apple_pos[1])
 
     def start(self):
         pass
@@ -62,4 +63,8 @@ class FieldClass:
             self.snake.set_turn(MOVE_LEFT)
         if event.keycode == VK_RIGHT and self.snake.turn != MOVE_LEFT:
             self.snake.set_turn(MOVE_RIGHT)
+        #self.snake.move()
+
+
+    def move(self):
         self.snake.move()

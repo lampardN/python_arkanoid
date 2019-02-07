@@ -2,6 +2,10 @@ from FieldClass import FieldClass
 from graph import *
 
 e = FieldClass()
-onTimer(e.snake.move, 1000)
+def update():
+    e.move()
+
+
+onTimer(update, 1000)
 onKey(e.set_direction)
 run()

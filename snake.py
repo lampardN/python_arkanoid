@@ -20,13 +20,23 @@ class Snake:
 
     def move(self):
         turn = self.direction_offset()
-        self.snake_parts[0].field_x += turn[0]
+        '''self.snake_parts[0].field_x += turn[0]
         self.snake_parts[0].field_y += turn[1]
         self.snake_parts[0].set_position(self.snake_parts[0].field_x,
                                          self.snake_parts[0].field_y)
         for i in range(1, len(self.snake_parts)-1):
             self.snake_parts[i].set_position(self.snake_parts[i-1].field_x,
-                                             self.snake_parts[i-1].field_y)
+                                             self.snake_parts[i-1].field_y)'''
+
+        headX = self.snake_parts[0].field_x
+        headY = self.snake_parts[0].field_y
+        headX += turn[0]
+        headY += turn[1]
+        for i in range(len(self.snake_parts)-1, -1, -1):
+            current = self.snake_parts[i]
+            next = self.snake_parts[i-1]
+            current.set_position(next.field_x, next.field_y)
+        self.snake_parts[0].set_position(headX, headY)
 
     def eat(self):
         pass
