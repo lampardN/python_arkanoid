@@ -8,6 +8,6 @@ def update():
     e.move()
 
 
-onTimer(update, 250)
+onTimer(update, 100)
 onKey(e.set_direction)
 run()

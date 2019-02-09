@@ -28,27 +28,37 @@ class FieldStub:
         if part == 'Apple':
             self.object = image(self.x, self.y, './image/yabloko.gif')
 
-    def set_image(self, part, turn=UP):
+    def set_image(self, part, turn=UP, est=False):
         if part == SNAKE_BODY:
             if turn == UP or turn == DOWN:
                 self.object = image(self.x, self.y, './image/telo_y.gif')
             if turn == LEFT or turn == RIGHT:
                 self.object = image(self.x, self.y, './image/telo_x.gif')
         if part == SNAKE_HEAD:
-            if turn == UP:
-                self.object = image(self.x, self.y, './image/golova_U.gif')
-            if turn == DOWN:
-                self.object = image(self.x, self.y, './image/golova_D.gif')
-            if turn == LEFT:
-                self.object = image(self.x, self.y, './image/golova_R.gif')
-            if turn == RIGHT:
-                self.object = image(self.x, self.y, './image/golova_L.gif')
+            if est:
+                if turn == UP:
+                    self.object = image(self.x, self.y, './image/est_U.gif')
+                if turn == DOWN:
+                    self.object = image(self.x, self.y, './image/est_D.gif')
+                if turn == LEFT:
+                    self.object = image(self.x, self.y, './image/est_L.gif')
+                if turn == RIGHT:
+                    self.object = image(self.x, self.y, './image/est_R.gif')
+            else:
+                if turn == UP:
+                    self.object = image(self.x, self.y, './image/golova_U.gif')
+                if turn == DOWN:
+                    self.object = image(self.x, self.y, './image/golova_D.gif')
+                if turn == LEFT:
+                    self.object = image(self.x, self.y, './image/golova_L.gif')
+                if turn == RIGHT:
+                    self.object = image(self.x, self.y, './image/golova_R.gif')
         if part == SNAKE_TAIL:
             if turn == UP:
                 self.object = image(self.x, self.y, './image/hvost_U.gif')
             if turn == DOWN:
                 self.object = image(self.x, self.y, './image/hvost_D.gif')
             if turn == LEFT:
-                self.object = image(self.x, self.y, './image/hvost_R.gif')
-            if turn == RIGHT:
                 self.object = image(self.x, self.y, './image/hvost_L.gif')
+            if turn == RIGHT:
+                self.object = image(self.x, self.y, './image/hvost_R.gif')

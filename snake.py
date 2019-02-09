@@ -47,10 +47,14 @@ class Snake:
         apple_coord = (apple.field_x, apple.field_y)
         snake_coord = (self.snake_parts[0].field_x,
                        self.snake_parts[0].field_y)
-        if apple_coord == snake_coord:
+        snake_next_coord = (self.snake_parts[0].field_x + turn[0],
+                            self.snake_parts[0].field_y + turn[1])
+        if apple_coord == snake_coord or apple_coord == snake_next_coord:
+            deleteObject(self.snake_parts[0].object)
+            self.snake_parts[0].set_image(self.snake_parts[0].part_type, turn, est=True)
             self.snake_parts.insert(1, SnakePart(SNAKE_BODY,
                                                  self.snake_parts[0].field_x,
-                                                 self.snake_parts[0].field_y))
+                                                 self.snake_parts[0].field_y, turn))
             self.snake_parts[0].field_x += turn[0]
             self.snake_parts[0].field_y += turn[1]
             self.snake_parts[0].set_position(self.snake_parts[0].field_x,
