@@ -16,3 +16,8 @@ MOVE_UP = 'up'
 MOVE_DOWN = 'down'
 MOVE_LEFT = 'left'
 MOVE_RIGHT = 'right'
+
+RIGHT = (-1, 0)
+LEFT = (1, 0)
+UP = (0, -1)
+DOWN = (0, 1)

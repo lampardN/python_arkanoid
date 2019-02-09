@@ -4,14 +4,11 @@ from config import *
 
 class FieldStub:
     def __init__(self, field_x, field_y):
-        self.color = (115, 250, 162)
         self.x = 0
         self.y = 0
         self.field_x = field_x
         self.field_y = field_y
-        penSize(0)
-        brushColor(self.color)
-        self.object = rectangle(self.x, self.y, self.x + FIELD_SIZE, self.y + FIELD_SIZE)
+        self.object = image(self.x, self.y, './image/trava.gif')
         self.set_position(field_x, field_y)
 
     def get_object(self):
@@ -27,6 +24,31 @@ class FieldStub:
     def move(self):
         pass
 
-    def set_color(self, color):
-        self.color = color
-        changeFillColor(self.object, color)
+    def set_image_for_apple(self, part):
+        if part == 'Apple':
+            self.object = image(self.x, self.y, './image/yabloko.gif')
+
+    def set_image(self, part, turn=UP):
+        if part == SNAKE_BODY:
+            if turn == UP or turn == DOWN:
+                self.object = image(self.x, self.y, './image/telo_y.gif')
+            if turn == LEFT or turn == RIGHT:
+                self.object = image(self.x, self.y, './image/telo_x.gif')
+        if part == SNAKE_HEAD:
+            if turn == UP:
+                self.object = image(self.x, self.y, './image/golova_U.gif')
+            if turn == DOWN:
+                self.object = image(self.x, self.y, './image/golova_D.gif')
+            if turn == LEFT:
+                self.object = image(self.x, self.y, './image/golova_R.gif')
+            if turn == RIGHT:
+                self.object = image(self.x, self.y, './image/golova_L.gif')
+        if part == SNAKE_TAIL:
+            if turn == UP:
+                self.object = image(self.x, self.y, './image/hvost_U.gif')
+            if turn == DOWN:
+                self.object = image(self.x, self.y, './image/hvost_D.gif')
+            if turn == LEFT:
+                self.object = image(self.x, self.y, './image/hvost_R.gif')
+            if turn == RIGHT:
+                self.object = image(self.x, self.y, './image/hvost_L.gif')
