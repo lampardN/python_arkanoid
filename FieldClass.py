@@ -27,20 +27,23 @@ class FieldClass:
                 self.parts[i][j] = FieldStub(i, j)
 
     def move_apple(self):
-        snake_position = []
-        for i in range(len(self.snake.snake_parts)):
-            snake_position.append((self.snake.snake_parts[i].field_x,
-                                   self.snake.snake_parts[i].field_y))
-        positions = []
-        for i in range(FIELD_PARTS):
-            for j in range(FIELD_PARTS):
-                positions.append((i,j))
-        result_positions = []
-        for i in range(len(positions)):
-            if snake_position.count(positions[i]) == 0:
-                result_positions.append(positions[i])
-        apple_pos = result_positions[randint(0, len(result_positions))]
-        self.apple.set_position(apple_pos[0], apple_pos[1])
+        try:
+            snake_position = []
+            for i in range(len(self.snake.snake_parts)):
+                snake_position.append((self.snake.snake_parts[i].field_x,
+                                       self.snake.snake_parts[i].field_y))
+            positions = []
+            for i in range(FIELD_PARTS):
+                for j in range(FIELD_PARTS):
+                    positions.append((i, j))
+            result_positions = []
+            for i in range(len(positions)):
+                if snake_position.count(positions[i]) == 0:
+                    result_positions.append(positions[i])
+            apple_pos = result_positions[randint(0, len(result_positions)-1)]
+            self.apple.set_position(apple_pos[0], apple_pos[1])
+        except:
+            deleteObject(self.apple.object)
 
     def start(self):
         pass
@@ -53,10 +56,7 @@ class FieldClass:
 
     def set_direction(self, event):
         if event.keycode == VK_SPACE:
-            if self.in_pause:
-                self.in_pause = False
-            else:
-                self.in_pause = True
+            self.revert_game_status()
 
         if event.keycode == VK_UP and self.snake.turn != MOVE_DOWN:
             self.snake.set_turn(MOVE_UP)
@@ -69,6 +69,22 @@ class FieldClass:
 
         if event.keycode == VK_RIGHT and self.snake.turn != MOVE_LEFT:
             self.snake.set_turn(MOVE_RIGHT)
+
+        if event.keycode == VK_RETURN:
+            self.game_reset()
+
+        if event.keycode == VK_ESCAPE:
+            close()
+
+    def game_reset(self):
+        for part in self.snake.snake_parts:
+            deleteObject(part.object)
+        deleteObject(self.apple.object)
+        self.draw()
+        self.snake = Snake()
+        self.apple = Apple(0, 0)
+        self.in_pause = True
+        self.move_apple()
 
     def move(self):
         if not self.snake.strike_status:

@@ -29,11 +29,22 @@ class FieldStub:
             self.object = image(self.x, self.y, './image/yabloko.gif')
 
     def set_image(self, part, turn=UP, est=False):
+        deleteObject(self.object)
         if part == SNAKE_BODY:
-            if turn == UP or turn == DOWN:
-                self.object = image(self.x, self.y, './image/telo_y.gif')
-            if turn == LEFT or turn == RIGHT:
-                self.object = image(self.x, self.y, './image/telo_x.gif')
+            '''if type(turn) == str:
+                if turn == UP or turn == DOWN:
+                    self.object = image(self.x, self.y, './image/telo_y.gif')
+                if turn == LEFT or turn == RIGHT:
+                    self.object = image(self.x, self.y, './image/telo_x.gif')
+            if type(turn) == int:'''
+            if turn == 1:
+                self.object = image(self.x, self.y, './image/povorot_1.gif')
+            if turn == 2:
+                self.object = image(self.x, self.y, './image/povorot_2.gif')
+            if turn == 3:
+                self.object = image(self.x, self.y, './image/povorot_3.gif')
+            if turn == 4:
+                self.object = image(self.x, self.y, './image/povorot_4.gif')
         if part == SNAKE_HEAD:
             if est:
                 if turn == UP:
