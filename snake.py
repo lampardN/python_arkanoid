@@ -1,6 +1,5 @@
 from config import *
 from snake_part import SnakePart
-from graph import *
 
 
 class Snake:
@@ -72,16 +71,14 @@ class Snake:
                     if res == TURN_3:
                         self.snake_parts[i].set_image(self.snake_parts[i].part_type, 4)
             else:'''
-            self.snake_parts[i].set_image(self.snake_parts[i].part_type, head_turn)
+            self.snake_parts[i].set_image(self.snake_parts[i].part_type, turn)
 
     def eat(self, apple):
         turn = self.direction_offset()
         apple_coord = (apple.field_x, apple.field_y)
-        snake_coord = (self.snake_parts[0].field_x,
-                       self.snake_parts[0].field_y)
         snake_next_coord = (self.snake_parts[0].field_x + turn[0],
                             self.snake_parts[0].field_y + turn[1])
-        if apple_coord == snake_coord or apple_coord == snake_next_coord:
+        if apple_coord == snake_next_coord:
             self.snake_parts[0].set_image(self.snake_parts[0].part_type, turn, est=True)
             self.snake_parts.insert(1, SnakePart(SNAKE_BODY,
                                                  self.snake_parts[0].field_x,

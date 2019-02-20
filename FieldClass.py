@@ -89,7 +89,8 @@ class FieldClass:
     def move(self):
         if not self.snake.strike_status:
             if not self.in_pause:
-                self.snake.move()
+                if self.snake.eat(self.apple):
+                    self.move_apple()
+                else:
+                    self.snake.move()
                 self.snake.strike()
-            if self.snake.eat(self.apple):
-                self.move_apple()
