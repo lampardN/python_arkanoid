@@ -3,12 +3,13 @@ from config import *
 from FieldStub import FieldStub
 from snake import Snake
 from Apple import Apple
+from menuClass import MenuClass
 from random import randint
 
 
 class FieldClass:
     def __init__(self):
-        windowSize(CANVAS_WIDTH, CANVAS_HEIGHT)
+        windowSize(CANVAS_WIDTH+350, CANVAS_HEIGHT)
         canvasSize(CANVAS_WIDTH, CANVAS_HEIGHT)
         self.parts = []
         for i in range(FIELD_PARTS):
@@ -16,6 +17,7 @@ class FieldClass:
             for j in range(FIELD_PARTS):
                 self.parts[i].append(None)
         self.draw()
+        self.menu = MenuClass()
         self.snake = Snake()
         self.apple = Apple(0, 0)
         self.in_pause = True
@@ -90,6 +92,8 @@ class FieldClass:
         if not self.snake.strike_status:
             if not self.in_pause:
                 if self.snake.eat(self.apple):
+                    self.menu.score += 1
+                    self.menu.score_update()
                     self.move_apple()
                 else:
                     self.snake.move()
