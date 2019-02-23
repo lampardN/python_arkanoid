@@ -5,12 +5,15 @@ from snake import Snake
 from Apple import Apple
 from menuClass import MenuClass
 from random import randint
+from sqlite3 import *
 
 
 class FieldClass:
     def __init__(self):
         windowSize(CANVAS_WIDTH+350, CANVAS_HEIGHT)
         canvasSize(CANVAS_WIDTH, CANVAS_HEIGHT)
+        self.db = connect('score.db')
+        self.cursor = self.db.cursor()
         self.parts = []
         for i in range(FIELD_PARTS):
             self.parts.append([])
@@ -47,9 +50,6 @@ class FieldClass:
         except:
             deleteObject(self.apple.object)
 
-    def start(self):
-        pass
-
     def revert_game_status(self):
         if self.in_pause:
             self.in_pause = False
@@ -76,6 +76,9 @@ class FieldClass:
             self.game_reset()
 
         if event.keycode == VK_ESCAPE:
+            sql = 'UPDATE top_score SET score=' + str(self.menu.height_score) + ' WHERE id=1'
+            self.cursor.execute(sql)
+            self.db.commit()
             close()
 
     def game_reset(self):
