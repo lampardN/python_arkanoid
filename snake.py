@@ -36,42 +36,46 @@ class Snake:
                            self.snake_parts[i].field_y)
             second_pos = (self.snake_parts[i-1].field_x,
                           self.snake_parts[i-1].field_y)
-            try:
+            if self.snake_parts[i].part_type != SNAKE_TAIL:
                 first_pos = (self.snake_parts[i+1].field_x,
                              self.snake_parts[i+1].field_y)
-            except:
-                first_pos = second_pos
+            else:
+                first_pos = (0, 0)
 
             turn = (second_pos[0] - current_pos[0],
                     second_pos[1] - current_pos[1])
 
-            '''if first_pos[0] != second_pos[0] + 2\
-            and first_pos[1] != second_pos[1] + 2\
-            and first_pos != second_pos:
+            self.snake_parts[i].set_image(self.snake_parts[i].part_type, turn)
+
+            if self.snake_parts[i].part_type != SNAKE_TAIL:
+
+                turn = (self.snake_parts[i].field_x - self.snake_parts[i-1].field_x,
+                        self.snake_parts[i].field_y - self.snake_parts[i-1].field_y)
+
                 res = (first_pos[0]-second_pos[0],
                        first_pos[1]-second_pos[1])
-                if head_turn == UP:
+
+                if turn == UP:
                     if res == TURN_1:
                         self.snake_parts[i].set_image(self.snake_parts[i].part_type, 1)
                     if res == TURN_2:
-                        self.snake_parts[i].set_image(self.snake_parts[i].part_type, 4)
-                if head_turn == DOWN:
+                        self.snake_parts[i].set_image(self.snake_parts[i].part_type, 2)
+                elif turn == DOWN:
                     if res == TURN_3:
                         self.snake_parts[i].set_image(self.snake_parts[i].part_type, 4)
                     if res == TURN_4:
                         self.snake_parts[i].set_image(self.snake_parts[i].part_type, 3)
-                if head_turn == LEFT:
+                elif turn == LEFT:
                     if res == TURN_1:
-                        self.snake_parts[i].set_image(self.snake_parts[i].part_type, 1)
+                        self.snake_parts[i].set_image(self.snake_parts[i].part_type, 4)
                     if res == TURN_4:
                         self.snake_parts[i].set_image(self.snake_parts[i].part_type, 2)
-                if head_turn == RIGHT:
+                elif turn == RIGHT:
                     if res == TURN_2:
                         self.snake_parts[i].set_image(self.snake_parts[i].part_type, 3)
                     if res == TURN_3:
-                        self.snake_parts[i].set_image(self.snake_parts[i].part_type, 4)
-            else:'''
-            self.snake_parts[i].set_image(self.snake_parts[i].part_type, turn)
+                        self.snake_parts[i].set_image(self.snake_parts[i].part_type, 1)
+
 
     def eat(self, apple):
         turn = self.direction_offset()

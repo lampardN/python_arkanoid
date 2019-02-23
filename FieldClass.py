@@ -87,6 +87,8 @@ class FieldClass:
         self.apple = Apple(0, 0)
         self.in_pause = True
         self.move_apple()
+        self.menu.score = 0
+        self.menu.score_update()
 
     def move(self):
         if not self.snake.strike_status:
