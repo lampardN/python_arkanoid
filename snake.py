@@ -17,10 +17,12 @@ class Snake:
         self.field_y += 1
         self.strike_status = False
         self.turn = MOVE_UP
+        self.status = False
         self.last_turn = self.turn
 
     def move(self):
         head_turn = self.direction_offset()
+        self.status = True
         head_x = self.snake_parts[0].field_x
         head_y = self.snake_parts[0].field_y
         head_x += head_turn[0]

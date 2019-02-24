@@ -60,17 +60,21 @@ class FieldClass:
         if event.keycode == VK_SPACE:
             self.revert_game_status()
 
-        if event.keycode == VK_UP and self.snake.turn != MOVE_DOWN:
-            self.snake.set_turn(MOVE_UP)
+        if self.snake.status == True:
 
-        if event.keycode == VK_DOWN and self.snake.turn != MOVE_UP:
-            self.snake.set_turn(MOVE_DOWN)
+            if event.keycode == VK_UP and self.snake.turn != MOVE_DOWN:
+                self.snake.set_turn(MOVE_UP)
 
-        if event.keycode == VK_LEFT and self.snake.turn != MOVE_RIGHT:
-            self.snake.set_turn(MOVE_LEFT)
+            if event.keycode == VK_DOWN and self.snake.turn != MOVE_UP:
+                self.snake.set_turn(MOVE_DOWN)
 
-        if event.keycode == VK_RIGHT and self.snake.turn != MOVE_LEFT:
-            self.snake.set_turn(MOVE_RIGHT)
+            if event.keycode == VK_LEFT and self.snake.turn != MOVE_RIGHT:
+                self.snake.set_turn(MOVE_LEFT)
+
+            if event.keycode == VK_RIGHT and self.snake.turn != MOVE_LEFT:
+                self.snake.set_turn(MOVE_RIGHT)
+
+            self.snake.status = False
 
         if event.keycode == VK_RETURN:
             self.game_reset()
